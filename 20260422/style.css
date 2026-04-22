@@ -1,0 +1,79 @@
+/* 1. RESETEO BASICO */
+/* El asterisco (*) significa que aplica a todo */
+*{
+    margin: 0;
+    padding: 0;
+    /* Hace que el tamaño de las cajas sea
+    predecible */
+    box-sizing: border-box;
+}
+
+body{
+    background-color: aquamarine;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* 2. PINTADO DE ZONAS PRINCIPALES */
+header{
+    /* background color = color de fondo */
+    background-color: blue;
+    /* color = a color de fuente */
+    color: white;
+    /* text-align centra el texto */
+    text-align: center;
+    /* PADDING : Espacio hacia ADENTRO de la caja */
+    padding: 20px;
+}
+
+footer{
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    /* MARGIN: Espacio hacia AFUERA
+     de la caja (Lo empuja hacia abajo) */
+    margin-top: 20px;
+}
+
+/* 3. EL MODELO DE LA CAJA */
+
+.caja{
+    background-color: blueviolet;
+    color: white;
+    font-size: 24px;
+    /* font-weight : bold = negrita */
+    font-weight: bold;
+    /* Damos formato a la caja */
+    padding: 30px; /*1. Engorda la caja hacia adentro*/
+    border: 5px solid black; /*Formato del borde de la caja*/
+    margin: 15px; /*Separa esta caja de las otras*/
+    border-radius: 10px; /*Redondeo de las esquinas*/
+
+}
+
+.anuncio{
+    background-color: beige;
+    color: black;
+    padding: 40px;
+    border-radius: 10px;
+    margin: 15px;
+}
+
+/* 4. LA MAGIA DE FLEXBOX (Poniendo orden)*/
+nav{
+    background-color: yellow;
+    color: blue;
+    padding: 15px;
+    /* Activar flexbox */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+/* Efecto hover: Cambia de color
+    al pasar el cursos
+*/
+.link:hover{
+    color: antiquewhite;
+    /* Aparece la manita */
+    cursor: pointer;
+}
