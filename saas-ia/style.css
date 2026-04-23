@@ -1,0 +1,84 @@
+/* CSS PROYECTO SAAS */
+/* 1. RESETEO Y BASES */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 2. LAYOUT PRINCIPAL (Flexbox)*/
+.app-container{
+    display: flex; /*Ponemos Sidebar y chat en fila*/
+    height: 100vh; /*Ocupar el 100% de la altura de la ventana*/
+    overflow: hidden; /*Evita que la web entera haga scroll*/
+}
+
+/* 3. SIDEBAR (Barra lateral) */
+.sidebar{
+    width: 260px; /*Ancho fijo para el menú */
+    background-color: #202123; /*Color oscuro tipo CHATGPT*/
+    color: white;
+    display: flex;
+    flex-direction: column; /*Los elementos del menú van*/
+    justify-content: space-between; /*Logo arriba, perfil abajo*/
+    padding: 15px;
+}
+
+.menu-lateral button{
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    border: 1px solid #4d4d4f;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+/* 4. AREA DE CHAT (Zona Central) */
+
+.chat-area{
+    flex-grow: 1; /*Ocupa TODO el espacio restante de la pantalla*/
+    display: flex;
+    flex-direction: column; /*Cabecera arriba, mensajes centro, input abajo*/
+    background-color: #343541;
+}
+
+.chat-header{
+    padding: 15px;
+    border-bottom: 1px solid #4d4d4f;
+    color: #ececf1;
+    text-align: center;
+}
+.mensajes-container {
+    flex-grow: 1; /*Mensajes ocupan el centro*/
+    padding: 40px;
+    display: flex;
+    justify-content: center;/*Centra horizontalmente*/
+    align-items: center;/*Centra el contenido verticalmente*/
+}
+
+.mensaje-ia{
+    color: #d1d5db;
+    max-width: 600px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/*5. FORMULARIO DE ENTRADA (input)*/
+.input-area{
+    padding: 20px 40px;
+}
+
+.chat-form{
+    max-width: 700px;
+    margin: 0 auto; /*Centra el formulario en el medio*/
+    display: flex;/*El input y el boton en fila*/
+    background-color: #40414f;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+
