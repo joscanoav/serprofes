@@ -95,13 +95,13 @@ nav a:hover {
 }
 
 /*4. AJUSTE DE PORTADA*/
-.gallery .portada {
+.gallery.portada {
     display: flex;/*Quitarmos el grid*/
     justify-content: center;
     align-items: center;
 }
 
-.gallery .portada img {
+.gallery.portada img {
     max-width: 800px;
     height: auto;
     border-radius: 10px;
