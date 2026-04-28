@@ -1,0 +1,28 @@
+/* GRID MUSEO ARTE */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* 1. ESQUELETO GENERAL */
+body {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 15% 1fr; /* 15% para el menú, el resto para fotos */
+  grid-template-rows: 60px 1fr 30px;
+  grid-template-areas:
+    "header header"
+    "nav    gallery"
+    "footer footer";
+  background: #1e1e1e; /* Fondo oscuro elegante */
+  color: #fff;
+  font-family: sans-serif;
+}
+
+header {
+    grid-area: header;
+    background-color: #111;
+    text-align: center;
+    padding-top: 15px;
+    font-size: 1.5rem; /*1 rem equivale a 16px*/
+}
