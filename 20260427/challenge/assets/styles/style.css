@@ -61,3 +61,28 @@ nav a:hover {
     background: #45a049;
     border-radius: 5px;
 }
+
+/* 3. LA GALERIA  */
+.gallery {
+    grid-area: gallery;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas iguales*/
+    gap: 20px;
+    padding: 20px;
+    /*Cajas 300px exactos de alto*/
+    grid-template-rows: 300px;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
