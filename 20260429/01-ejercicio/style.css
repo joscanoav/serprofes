@@ -1,0 +1,97 @@
+
+/* 1. RESETEO WEB */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+body {
+    /* Efecto Wow 1 : Fondo degrado */
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/*La tarjeta blanca flotante*/
+.form-container {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    width: 450px; /*Ancho fijo para el ordenor*/
+    text-align: center;
+}
+
+.form-container h2 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.form-container p {
+    margin-bottom: 25px;
+    color: #666;
+}
+
+/*Maquetación de inputs - (Elimina bordes feos)*/
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #eee;
+    border-radius: 8px;
+    outline: none; /*Magia - Quita el borde azul nativo*/
+    transition: 0.3s;
+
+}
+
+/*Efecto al hacer click para escribir*/
+.input-group input:focus {
+    border-color: #35e97b;
+}
+
+/*Efecto Wow 2 : El boton Premium*/
+
+.btn-enviar {
+    width: 100%;
+    padding: 15px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.btn-enviar:hover {
+    background: #43e97b;
+    color: #333;
+    transform: scale(1.02); /*El boton crece un poquito*/
+}
+
+/*2. EL SECRETO : RESPONSIVE DESIGN (Móviles)*/
+@media (max-width: 500px) {
+    .form-container {
+        width: 100%; /*Ocupa todo el ancho disponible del movil*/
+        padding: 20px; /*Reducimos los margenes internos*/
+    }
+    body {
+        background: #43e97b; /*Quitamos el efecto degradado para mejora rendimiento*/
+    }
+}
