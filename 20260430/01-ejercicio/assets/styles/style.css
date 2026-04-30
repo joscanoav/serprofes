@@ -1,0 +1,131 @@
+/*1. RESETEO Y BASE*/
+* {
+    margin: 0;
+    padding: 0;
+    /*El borde no aumenta el tamaño de la caja*/
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+/*2. EL CONTENOR PRINCIPAL (HERO)*/
+.hero {
+    width: 100%;
+    min-height: 100vh; /*Ocupa toda la pantalla*/
+    background-image: url(../images/back-image.png);
+    background-position: center;
+    background-size: cover;/*La imagen cubre todo sin deformarse*/
+    padding: 10px 10%; /*Margen interior por los lados*/
+    overflow: hidden;/*Oculta lo que salga de la pantall*/
+    position: relative;/*Para poner la imagen del movil
+    absoluta despues*/
+}
+/*3. BARRA DE NAVEGACIÓN*/
+nav {
+    padding: 10px 0;
+    display: flex;/*Flexbox para poner elementos en fila*/
+    align-items: center;
+    justify-content: space-between;/*Empuja el log. iz y botones a la derecha*/
+}
+
+.logo {
+    width: 140px;
+}
+
+nav ul li {
+    display: inline-block; /* Pone la lista en horizontal*/
+    list-style: none; /*quita los puntos de la lista*/
+    margin: 10px 15px;
+}
+
+nav ul li a {
+    text-decoration: none; /*Quita el subrayado*/
+    color: #333;
+    font-weight: 400;
+}
+
+/*4. BOTONES PREMIUN*/
+
+.logn-btn {
+    text-decoration: none;
+    color: #333;
+    margin-right: 15px;
+    font-weight: 400;
+}
+
+.btn {
+    display: inline-block;
+    text-decoration: none;
+    padding: 14px 40;
+    color: #fff;
+    /*Fondo degradado diagonal*/
+    background-image: linear-gradient(45deg, #df4881, #c430d7);
+    font-size: 14px;
+    border-radius: 30px;
+    /*Le quita el redondeo a una esquina*/
+    border-top-right-radius: 0;
+    transition: 0.5s;
+}
+
+.btn:hover {
+    /*Al pasar el raton se redondea por completo*/
+    border-top-right-radius: 30px;
+}
+
+/*5. CONTENEDOR DE TEXTOS*/
+.content {
+    margin-top: 10%;
+    max-width: 600px;
+}
+
+.content h1 {
+    font-size: 70px;
+    color: #222
+}
+.content p {
+    margin: 10px 0 30px;
+    color: #333;
+}
+
+.content .btn {
+    padding: 15px 80px;
+    font-size: 16px;
+}
+
+/*La imagen grande a la derecha*/
+
+.feature-img{
+    width: 530px;
+    position: absolute; /*Saca del flujo*/
+    bottom: 0; /*Lo pega debajo del todo*/
+    right: 10%;
+}
+
+/*6. MAGIA : ANIMACIONES*/
+/*Creamos la pelicula: De transparente y abajo,
+a visible y arriba*/
+@keyframes moveup {
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+.anim {
+    opacity: 0; /*Empiezan invisibles*/
+    /*Empiezan 30px mas abajo de su sitio real*/
+    transform: translateY(30px); 
+    /*Ejecutan moveup y se quedan en el esado final*/
+    animation: moveup 0.5s linear forwards;
+}
+
+/*Aplicamos la pelicula a tosos los que tengan clase
+anim*/
+.content p { 
+    animation-delay: 0.5s;
+}
+.content .btn {
+    animation-delay: 1s;
+}
+.feature-img.anim {
+    animation-delay: 1.5s;
+}
