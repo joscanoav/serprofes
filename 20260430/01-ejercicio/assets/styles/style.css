@@ -129,3 +129,64 @@ anim*/
 .feature-img.anim {
     animation-delay: 1.5s;
 }
+
+/*7. RESPONSIVE DESIGN*/
+
+/*Para móviles y tablets*/
+
+@media (max-width:850px) {
+    /*1. Achicamos el texto principal*/
+    .content h1 {
+        font-size: 45px;
+    }
+    /*2. Ocultamos la lista del menú*/
+    nav ul {
+        display: none;
+    }
+    .content {
+        margin-top: 15%;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /*Arreglamos la imagen: Sacamos el*/
+    /* absolute para que baje abajo del texto*/
+
+    .feature-img {
+        width: 90%;
+        max-width: 350px;
+        /*Cancelar el absolute*/
+        position: relative;
+        display: block;
+        /*margin centra automaticamente*/
+        margin: 40px auto 0; 
+        right: 0;
+    }
+
+}
+
+/*Ajuste para moviles mas pequeños*/
+
+@media (max-width:500px){
+    /*Achicamos el texto del titulo un poco más*/
+    .content h1 {
+        font-size: 35px;
+    }
+    /*Ocultamos el 'Log in' para hacer un sitio*/
+    nav .logn-btn {
+        display: none;
+    }
+    /*Reducimos el boton de arriva (Download App)*/
+    nav .btn {
+        padding: 10px 20px; /*Mucho mas delgado*/
+        font-size: 12px; /*Letra más pequeña*/
+    }
+    /*Reducimos el boton mas grande*/
+    .content .btn {
+        padding: 12px 40px; /*Pasa de 80px a 40px*/
+        font-size: 14px;
+    }
+}
+
+
