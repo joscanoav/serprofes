@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de descuentos</title>
+    <!-- 1. Conexión con el diseño CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- 2.Conexión con el cerebro JS usando DEFER -->
+    <script src="script.js" defer></script> 
+</head>
+<body>
+    <div class="card">
+        <h2>Calculadora de descuentos</h2>
+        <label> Precio Original (€):</label>
+        <br>
+        <label> Descuento (%)</label>
+        <br>
+        <!-- El evento onclick llama a nuestra
+         función en JS -->
+        <button onclick="calcularPrecioFinal()">Calcular Precio Final</button> 
+        <p>El precio final es:</p>
+        <p class="resultado" id="texto-resultado">0.00€</p>
+    </div>
+    
+</body>
+</html>
