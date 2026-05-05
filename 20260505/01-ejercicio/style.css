@@ -52,3 +52,7 @@ button:hover {
     color: #38f9d7;
     font-weight: bold;
 }
+
+.texto-precio {
+    margin-top: 20px;
+}
