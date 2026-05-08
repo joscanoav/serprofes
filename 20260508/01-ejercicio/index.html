@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcade: Adivina el Número</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="card">
+        <h2>Adivina el numero 🎯</h2>
+        <p class="instrucciones">
+            Estoy pensando en número del 1 al 10...
+        </p>
+        <!-- Mostrar vidas dinámicamente (JS) -->
+        <h3 id="texto-vidas">Vidas: 3 ♥️</h3>
+        <!-- campo donde el usuari escribe -->
+        <input type="number" id="input-numero" placeholder="Tu número...">
+        <button id="btn-jugar" onclick="comprobarNumero()">
+            Probar suerte
+        </button>
+        <!-- Aquí aparecerán los mensajes del juego -->
+        <p class="resultado" id="mensaje-salida">
+            ¡Haz tu primer intento!
+        </p>
+
+    </div>
+</body>
+</html>
