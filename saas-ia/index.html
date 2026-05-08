@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mi IA SaaS - Panel de Control</title>
     <link rel="stylesheet" href="style.css" />
+    <!-- Relacionamos con el fichero app.js DEFER para que cargue junto al html -->
+    <script src="app.js" defer></script>
+
   </head>
 
   <body>
@@ -40,8 +43,11 @@
             </section>
 
             <footer class="input-area">
-                <form class="chat-form">
-                    <input type="text" placeholder="Escribe tu pregunta aqui ...">
+                <!-- Evento Form señade la función enviarPrompt -->
+                <form class="chat-form" onsubmit="enviarPrompt(event)">
+                <!-- Añadir ID -->
+                    <input type="text" id="mensaje-input" placeholder="Escribe tu pregunta aqui ...">
+                <!-- Añadir tipo submit -->
                     <button type="submit">Enviar</button>
                 </form>
             </footer>
