@@ -2,7 +2,8 @@
 // Math.random() genera u número entre 0 y 11
 // * 10 => 0 y 9
 // +1 => 1 y 10
-let numeroSecreto = Math.floor(Math.random())*10 + 1;
+//Math.floor elimina los decimales
+let numeroSecreto = Math.floor(Math.random()*10) + 1;
 //Variables del juego
 let vidas = 3;
 // FUNCION PRINCIPAL
@@ -26,7 +27,6 @@ function comprobarNumero() {
         vidas--;
         //Actualizar el texto de vidas en la pantalla
         textoVidas.textContent = "Vidas: " + vidas + " 💗";
-    }
 
     // **PISTAS**
     if(intento < numeroSecreto) {
@@ -45,4 +45,7 @@ function comprobarNumero() {
         //Desactivar el botón
         document.getElementById('btn-jugar').disabled = true;
     }
+    }
+
+    
 }
