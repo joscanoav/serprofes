@@ -5,4 +5,14 @@ const carrito = [
     {nombre: "🥚 Huevos Camperos", precio: 2.50},
     {nombre: "🥑 Aguacate", precio:1.00}
 ];
+//CÓDIGO DE APOYO VISUAL
+let listaHTML = document.getElementById('lista-producto');
+for(let i = 0; i < carrito.length;i++){
+    // Usamos carrito[i].nombre para sacar el dato en cada vuelta
+    listaHTML.innerHTML += `
+    <li><span>${carrito[i].nombre}</span>
+    <span>${carrito[i].precio.toFixed(2)}€</span>
 
+    `
+
+}
