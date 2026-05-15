@@ -43,6 +43,11 @@
                 <button onclick="mostrarTodo()"> Ver Todo</button>
                 <button onclick="verMisMensajes()">Mis Mensajes</button>
                 <button onclick="modoGritar()">Modo Mayúsculas</button>
+                <button onclick="borrarChat()" class="btn-peligro">🗑️ Borrar Chat</button>
+            </div>
+            <div class="buscador-container">
+                <input type="text" id="input-buscador" placeholder="Buscar palabra en el chat...">
+                <button onclick="buscarMensaje()">🔍 Buscar</button>
             </div>
             <!-- Eliminar el mensaje Hola ..... y el id="caja-mensajes" -->
             <section class="mensajes-container" id="caja-mensajes"></section>
