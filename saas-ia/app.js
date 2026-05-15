@@ -102,3 +102,27 @@ function modoGritar() {
     // Le pasamos esa lista transformada a nuestra función pintura
     pintarChat(chatGritando);
 }
+
+// Reto 1 : Boton Borrar
+
+function borrarChat() {
+    //1. Vaciamos la memoria (Array vacío)
+    historialChat = [];
+    //2. Pintamos en el html
+    pintarChat(historialChat);
+}
+
+// Reto 2 : Buscador inteligente (Filter + Includes)
+function buscarMensaje() {
+    //1. Atrapamos lo que el usuario ha escrito en la cajita del buscador
+    // Usamos .toLowerCase() para pasarlo a minúsculas y evitar problemas de mayúsculas/minúsculas
+    let palabraBuscada = document.getElementById('input-buscador').value.toLowerCase();
+    //2. Usamos el portero (Filter) para revisar el historial
+    let resultados = historialChat.filter(msj => {
+        //Pasamos el texto original del mensaje a minúsculas y le preguntaremos:
+        // "¿Este texto .includes() (incluye) la palabra buscadas?"
+        return msj.texto.toLowerCase().includes(palabraBuscada);
+    });
+    //3. Pintamos la pantalla SOLO los resultados encontrados
+    pintarChat(resultados);
+}
