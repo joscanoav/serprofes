@@ -1,4 +1,5 @@
 // 1. NUESTRA BASE DE DATOS MOCK
+// Array de objetos [ rol , texto ]
 let historialChat = [
     { rol: "ia", texto: "¡Hola! Soy IA Master. ¿En qué te ayudo?"},
     { rol: "usuario", texto: "Quiero aprender JavaScript"},
@@ -6,44 +7,71 @@ let historialChat = [
 ];
 
 //2. LA FUNCION PINTORA (Visual)
+// Esta función recibe una lista (nuestro array) y lo dibuja en la pantalla
 function pintarChat(listaMensajes){
+    // PASO 1 = Buscamos en el HTML la etiqueta donde vamos a meter los mensajes
     let caja = document.getElementById('caja-mensajes');
+    // PASO 2 = Borramos la pizarra.
+    // Si no hacemos esto, cada vez que enviemos un mensajes nuevo,
+    // se volverá a pintar todo el historial antiguo
     caja.innerHTML = "";
+    // PASO 3: EL TRABAJADOR VIRTUAL (El bucle FOR)
     // MATENEMOS EL BUCLE FOR QUE APRENDIMOS AYER
-    for(let i = 0; 1 < listaMensajes.length;i++){
+    // Le decimos que dé tantas vueltas como mensajes haya en la lista.
+    // (listaMensajes.length)
+    for(let i = 0; i < listaMensajes.length;i++){
+        // PASO 4 : EL CONDICIONAL TERNARIO (Un "IF" resumido en una linea)
+        // Le preguntamos: ¿El rol de este mensaje es "usuario"?
+        // Si es true(?) -> usamos la clase verde("msg-usuario")
+        // Si es false(:) -> usaos la clase gris ("msg-ia")
         let claseCSS = listaMensajes[i].rol === "usuario" ? "msg-usuario" : "msg-ia";
-        caja.innerHTML += `<div class = "${claseCSS}"><b>
-        ${listaMensajes[i].rol.toUpperCase()}:</b>
-        <br>${listaMensajes[i].texto}</div>
-        `;
+        // PASO 5 : INYECTAR EL HTML (Usando comillas invertidas ``)
+        // Las comillas invertidas nos permiten meter variables de JS dentro del HTML
+        // usando el símbolo de dólar y las llaves ${...}.
+        // caja.innerHTML += significa "añade este bloque al final de lo que haya"
+        caja.innerHTML +=
+                             `<div class = "${claseCSS}">
+                             <b>${listaMensajes[i].rol.toUpperCase()}:</b><br>
+                             ${listaMensajes[i].texto}</div>
+                             `;
     }
+    // PASO 6 : EL AUTO-SCROLL (El truco de Whatsapp)
+    // Le decimos a la caja que baje su barra de desplazamiento hasta el fondo
+    // Para que siempre veamos el último mensaje enviado
     caja.scrollTop = caja.scrollHeight;
-
 }
+
 pintarChat(historialChat);
 
 
-
-
-
-
-
-
 function enviarPrompt(event) {
-    // Evitamos que el form recargue la página
+    // Evitamos que la pagina web parpadee y se recargue al enviar el formuario
     event.preventDefault();
+    // Atrapamos la cajita de texto donde el usuario escribe
+    let input = document.getElementById('mensaje-input');
 
-    // 1. Capturar el texto
-    let mensaje = document.getElementById('mensaje-input').value.trim();
+    // Sacamos el texto que ha escrito y le quitamos los espacios en blanco
+    // con .trim()
+    let mensaje = input.value.trim();
 
     //2. Condicional
 
     if (mensaje === "") {
         alert("⚠️¡Error! Escribe algo primero");
-    } else {
-        alert("🤖 mensaje recibido:\n" + mensaje);
-        //3. Limpiar input
-        document.getElementById('mensaje-input').value="";
+        // El return expulsa a JS de la funcion para no siga leyendo
+        return;
     }
+    // a) Guardamos el mensaje real del usuario
+    let nuevoMensaje = { rol: "usuario", texto: mensaje};
+    historialChat.push(nuevoMensaje);// Lo metemos al final del Array
+    // b) EL TRUCO : Simulamos que la IA nos responde al instante creando otro objeto
+    let respuestaIA = { rol: "ia", texto: "Estoy procesando tu mensaje: '" + mensaje + "'"};
+    historialChat.push(respuestaIA);
 
+    // c) Como el array ha cambiado (Tiene dos mensajes más), obligamos a la web repintarse
+    pintarChat(historialChat);
+    // d) Limpiamos el texto que quedo escrito en el input
+    input.value = "";
+    input.focus();
 }
+
