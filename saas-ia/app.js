@@ -75,3 +75,30 @@ function enviarPrompt(event) {
     input.focus();
 }
 
+//MINI RETO 1 : Ver TODO
+function mostrarTodo() {
+    pintarChat(historialChat);
+}
+// MINI RETO 2 :El portero (Filter) Mis mensajes
+function verMisMensajes() {
+    // Revisa todo el historial. Acada mensaje lo llama "msj"
+    // Devuelve una lista nueva SOLO con los que cumplan la regla
+    // (rol === "usuario")
+    let soloUsuario = historialChat.filter(msj => msj.rol === "usuario");
+    //Le pasamos esa lista cortita a nuesta función pintora
+    pintarChat(soloUsuario);
+}
+
+function modoGritar() {
+
+    // Entra a todo el historial. Por cada mensaje ("msj"), construye un objeto nuevo.
+    let chatGritando = historialChat.map(msj =>{
+        return {
+            rol: msj.rol,
+            // Aquí está la transformación: convertimos el texto original a MAYÚSCULAS
+            texto: msj.texto.toUpperCase()
+        };
+    });
+    // Le pasamos esa lista transformada a nuestra función pintura
+    pintarChat(chatGritando);
+}
