@@ -1,0 +1,96 @@
+:root {
+    --bg-color: #f4f7f6;
+    --text-color: #333333;
+    --card-bg: #ffffff;
+    --border-color: #dddddd;
+}
+
+/* Classes específicas para el Modo Oscuro */
+
+body.dark {
+    --bg-color: #121212;
+    --text-color: #eeeeee;
+    --card-bg: #1e1e1e;
+    --border-color: #444444;
+}
+
+/* Estilos Globales*/
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin: 0;
+    padding: 0;
+}
+.top-bar {
+    background-color: var(--card-bg);
+    padding: 15px 30px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end;
+}
+.contenedor-principal {
+    max-width: 800px;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+/*Tarjetas (Cards)*/
+.card {
+    background-color: var(--card-bg);
+    padding: 25px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+/*Botones*/
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+.btn:hover {
+    opacity: 0.8;
+}
+.btn-primary {
+    background-color: #007bff; 
+    color: white;
+}
+.btn-secondary {
+    background-color: #6c757d; 
+    color: white;
+}
+.badge {
+    background-color: #28a745;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+}
+/*Componente: Menú Toogle*/
+.menu-desplegable{
+    margin-top: 15px;
+    background-color: var(--bg-color);
+    border-radius: 5px;
+    padding: 10px;
+}
+.menu-desplegable ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.menu-desplegable a {
+    color: var(--text-color);
+    text-decoration: none;
+    display: block;
+    padding: 8px;
+}
+/*Utilidad clave para le JS*/
+.oculto {
+    display: none;
+}
