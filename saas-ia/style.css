@@ -36,6 +36,15 @@
     margin-bottom: 20px;
 }
 
+.historial ul {
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+.historial li {
+    margin-bottom: 8px;
+}
+
 /* 4. AREA DE CHAT (Zona Central) */
 
 .chat-area{
@@ -51,20 +60,72 @@
     color: #ececf1;
     text-align: center;
 }
-.mensajes-container {
-    flex-grow: 1; /*Mensajes ocupan el centro*/
-    padding: 40px;
-    display: flex;
-    justify-content: center;/*Centra horizontalmente*/
-    align-items: center;/*Centra el contenido verticalmente*/
+
+.controles-filtros {
+    text-align: center;
+    padding: 10px;
+    background-color: #202123;
+    border-bottom: 1px solid #4d4d4f;
+
 }
 
-.mensaje-ia{
-    color: #d1d5db;
-    max-width: 600px;
-    font-size: 1.1rem;
-    line-height: 1.6;
+.controles-filtros button {
+    background: #444654;
+    color: white;
+    border: 1px solid #565869;
+    padding: 8px 15px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
 }
+.controles-filtros button:hover {
+    background-color: #565869;
+}
+
+
+/* Modificamos el mensajes-container
+    - mensajes uno debajo del otro
+    - scroll vertical
+    - simulación real de chat
+*/
+.mensajes-container {
+    flex-grow: 1; /*Mensajes ocupan el centro*/
+    padding: 20px 40px;
+    display: flex;
+    /* Se agrega el flex-direction : column por ser chat */
+    flex-direction: column;
+    /*flex-start : cololar elementos al inicio del contenedor*/
+    justify-content: flex-start;
+    /*strech los elementos ocupan el ancho disponible*/
+    align-items: stretch;
+    overflow-y: auto;
+}
+
+/*BURBUJAS*/
+.msg-usuario, .msg-ia {
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    max-width: 80%;
+    width: fit-content;
+    line-height: 1.5;
+    transition: all 0.3s ease;
+}
+
+/* La Burbuja de usuario se alinea a la derecha */
+.msg-usuario {
+    background-color: #19c37d ;
+    color: white;
+    align-self: flex-end;
+}
+/*Se alinea a la izquierda*/
+.msg-ia {
+    background-color: #444654;
+    color: #d1d1d1;
+    align-self: flex-start;
+}
+
 
 /*5. FORMULARIO DE ENTRADA (input)*/
 .input-area{
@@ -88,6 +149,8 @@
     color: white;
     padding: 10px;
     outline: none; /*Quita el borde azul al hacer click*/
+    /*Aumentamos el tamño de la letra del input*/
+    font-size: 1rem;
 }
 
 .chat-form button {
@@ -97,6 +160,61 @@
     padding: 5px 15px;
     border-radius: 5px;
     cursor: pointer;
+    transition: 0.3s;
+}
+
+.chat-form button:hover {
+    opacity: 0.9;
+}
+/* sr-only ocultar elemente visualmente sin eliminarlo HTML */
+.sr-only {
+    /*position absolute - para mover libremente top left bottom etc*/
+    position: absolute;
+    /*Mueve muy lejos a la izquierda*/
+    left: -9999px;
+}
+
+/*Boton Peligro (Borrar)*/
+.controles-filtros .btn-peligro {
+    background-color: #e74c3c;
+    border: 1px solid #c0392b;
+}
+
+.controles-filtros .btn-peligro:hover {
+    background-color: #c0392b;
+}
+
+/*Boton Buscador  */
+.buscador-container {
+    text-align: center;
+    padding: 10px;
+    background-color: #202123;
+    border-bottom: 1px solid #4d4d4f;
+}
+
+.buscador-container input {
+    padding: 8px 15px;
+    border-radius: 4px;
+    border: none;
+    width: 60%;
+    max-width: 400px;
+    outline: none;
+    font-size: 0.95rem;
+}
+
+.buscador-container button {
+    background-color: #19c37d;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    margin-left: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+.buscador-container button:hover {
+    opacity: 0.9;
 }
 
 /*MAGIA RESPONSIVE - ADAPTANDO EL CHAT A MÓVILES*/
@@ -122,7 +240,6 @@ o móvil (menos de 768px)
         padding: 15px;
     }
     .chat-form {
-        flex-direction: row;
         padding: 5px;
     }
 
@@ -138,11 +255,12 @@ o móvil (menos de 768px)
     .chat-header h3 {
         font-size: 1.1rem; /*Achicamos el titulo superior*/
     }
-    .mensaje-ia {
-        font-size: 0.95rem; 
-        /*Ajustamos el texto de la ia para que no se vea
-        gitante*/
+
+    .msg-usuario, .msg-ia {
+        max-width: 90%;
+        font-size: 0.95rem;
     }
+
 }
 
 

@@ -38,15 +38,35 @@
                 <h3>Conversación Actual</h3>
             </header>
 
-            <section class="mensajes-container">
-                <div class="mensaje-ia">¡Hola! ¿En qué puedo ayudarte hoy?</div>
-            </section>
+            <!-- AGREGAR BOTONES  -->
+            <div class="controles-filtros">
+                <button onclick="mostrarTodo()"> Ver Todo</button>
+                <button onclick="verMisMensajes()">Mis Mensajes</button>
+                <button onclick="modoGritar()">Modo Mayúsculas</button>
+                <button onclick="borrarChat()" class="btn-peligro">🗑️ Borrar Chat</button>
+            </div>
+            <div class="buscador-container">
+                <input type="text" id="input-buscador" placeholder="Buscar palabra en el chat...">
+                <button onclick="buscarMensaje()">🔍 Buscar</button>
+            </div>
+            <!-- Eliminar el mensaje Hola ..... y el id="caja-mensajes" -->
+            <section class="mensajes-container" id="caja-mensajes"></section>
 
             <footer class="input-area">
                 <!-- Evento Form señade la función enviarPrompt -->
                 <form class="chat-form" onsubmit="enviarPrompt(event)">
+                
+                <!-- for="mensaje-input" // sr-only = Solo para lectores de pantalla -->
+                
+                <label for="mensaje-input" class="sr-only">Mensaje</label>
+                
+                
                 <!-- Añadir ID -->
-                    <input type="text" id="mensaje-input" placeholder="Escribe tu pregunta aqui ...">
+                    <input 
+                        type="text" 
+                        id="mensaje-input" 
+                        placeholder="Escribe tu pregunta aqui ..."
+                        autocomplete="off" >
                 <!-- Añadir tipo submit -->
                     <button type="submit">Enviar</button>
                 </form>
