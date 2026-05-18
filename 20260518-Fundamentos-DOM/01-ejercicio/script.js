@@ -56,3 +56,4 @@ toggleOscuro.addEventListener('change', () =>{
         textoSwitch.textContent = 'Activar Modo Oscuro';
     }
 });
+//
