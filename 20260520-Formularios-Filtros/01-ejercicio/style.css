@@ -80,3 +80,8 @@ body {
     margin-top: 15px;
 }
 
+.tabla-admin th, .tabla-admin td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
