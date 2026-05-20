@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursos Gratis Dev - Aprende Programación Gratis</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        bgDark: '#030712', // gray-950
+                        cardDark: '#0f172a', // slate-900
+                        cardBorder: '#1e293b', // slate-800
+                        primary: '#6366f1', // indigo-500
+                        secondary: '#a855f7', // purple-500
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'blob': 'blob 7s infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #030712;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism utilities */
+        .glass {
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: linear-gradient(145deg, rgba(30,41,59,0.7) 0%, rgba(15,23,42,0.9) 100%);
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-card:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px -10px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Tech Grid Background */
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        }
+
+        /* Scroll Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(to right, #818cf8, #c084fc, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Timeline styling */
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background: linear-gradient(to bottom, #6366f1, #a855f7, transparent);
+            top: 0;
+            bottom: 0;
+            left: 20px;
+        }
+        @media (min-width: 768px) {
+            .timeline-line::before {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-primary selection:text-white relative">
+
+    <!-- Background glow effects -->
+    <div class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-primary/20 blur-[120px] -z-10 pointer-events-none mix-blend-screen"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-secondary/20 blur-[120px] -z-10 pointer-events-none mix-blend-screen"></div>
+    <div class="fixed inset-0 bg-grid -z-20 pointer-events-none"></div>
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 glass transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center mr-3 shadow-lg shadow-primary/30">
+                        <i class="fa-solid fa-code text-white"></i>
+                    </div>
+                    <span class="font-bold text-xl tracking-tight text-white">Cursos Gratis <span class="text-gradient">Dev</span></span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#beneficios" class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Beneficios</a>
+                    <a href="#plataformas" class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Plataformas</a>
+                    <a href="#roadmap" class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Roadmap</a>
+                    <a href="#testimonios" class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Testimonios</a>
+                    <a href="#plataformas" class="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 text-white font-medium text-sm transition-all flex items-center gap-2 group">
+                        Empezar Gratis
+                        <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden glass border-t border-white/10 absolute w-full">
+            <div class="px-4 pt-2 pb-6 space-y-1">
+                <a href="#beneficios" class="block px-3 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/5">Beneficios</a>
+                <a href="#plataformas" class="block px-3 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/5">Plataformas</a>
+                <a href="#roadmap" class="block px-3 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/5">Roadmap</a>
+                <a href="#plataformas" class="block mt-4 px-3 py-3 rounded-lg text-base font-medium text-white bg-gradient-to-r from-primary to-secondary text-center">Empezar Gratis</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/30 bg-primary/10 text-primary-300 mb-8 animate-float text-sm font-medium backdrop-blur-sm">
+                <span class="relative flex h-3 w-3">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+                </span>
+                100% Gratis y Oficiales
+            </div>
+
+            <!-- Titles -->
+            <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 max-w-4xl mx-auto leading-tight">
+                Aprende Desarrollo Web Gratis y Obtén <br class="hidden md:block" />
+                <span class="text-gradient">Certificados Oficiales</span>
+            </h1>
+            
+            <p class="mt-4 text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+                Descubre las mejores plataformas para estudiar programación, frontend, backend, Python, React y más, sin gastar un centavo y avalando tus conocimientos.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#plataformas" class="px-8 py-4 rounded-full bg-gradient-to-r from-primary to-secondary text-white font-semibold text-lg hover:shadow-[0_0_30px_rgba(99,102,241,0.5)] transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                    Explorar Cursos
+                    <i class="fa-solid fa-rocket"></i>
+                </a>
+                <a href="#roadmap" class="px-8 py-4 rounded-full glass hover:bg-white/10 text-white font-semibold text-lg transition-all flex items-center justify-center gap-2">
+                    Ver Ruta de Estudio
+                    <i class="fa-solid fa-map"></i>
+                </a>
+            </div>
+
+            <!-- Hero Image / Graphic -->
+            <div class="mt-20 relative max-w-5xl mx-auto reveal">
+                <div class="absolute inset-0 bg-gradient-to-t from-bgDark to-transparent z-10"></div>
+                <div class="glass-card rounded-xl p-2 border-white/10 shadow-2xl overflow-hidden relative">
+                    <!-- Decorational dots -->
+                    <div class="flex gap-1.5 p-3 border-b border-white/5 bg-black/20">
+                        <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                    </div>
+                    <!-- Mockup code -->
+                    <div class="p-6 text-left font-mono text-sm text-gray-300 bg-[#0a0a0a] overflow-hidden relative h-64 md:h-80">
+                        <p class="text-purple-400">import <span class="text-white">React</span> from <span class="text-green-300">'react'</span>;</p>
+                        <p class="text-purple-400 mt-2">const <span class="text-blue-400">FutureDeveloper</span> = () => {</p>
+                        <p class="pl-4 mt-2">const [skills, setSkills] = <span class="text-blue-400">useState</span>([]);</p>
+                        <p class="pl-4 mt-4 text-gray-500">// Aprender es gratis, el límite lo pones tú</p>
+                        <p class="pl-4 mt-2">return (</p>
+                        <p class="pl-8 text-primary">&lt;div className="success"&gt;</p>
+                        <p class="pl-12 text-white">¡Certificados obtenidos: 100% Gratis!</p>
+                        <p class="pl-8 text-primary">&lt;/div&gt;</p>
+                        <p class="pl-4">);</p>
+                        <p>}</p>
+                        
+                        <!-- Floating tech icons inside the mockup -->
+                        <div class="absolute right-10 top-10 text-4xl text-blue-400 opacity-50 animate-blob"><i class="fa-brands fa-react"></i></div>
+                        <div class="absolute right-32 top-32 text-4xl text-yellow-400 opacity-50 animate-blob" style="animation-delay: 2s"><i class="fa-brands fa-js"></i></div>
+                        <div class="absolute right-20 bottom-10 text-4xl text-blue-500 opacity-50 animate-blob" style="animation-delay: 4s"><i class="fa-brands fa-python"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Beneficios Section -->
+    <section id="beneficios" class="py-24 relative border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Por qué aprender en estas plataformas</h2>
+                <p class="text-gray-400">No necesitas gastar miles de dólares en bootcamps. La educación de alta calidad está al alcance de un clic.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1 -->
+                <div class="glass-card p-8 rounded-2xl reveal relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-[40px] group-hover:bg-primary/20 transition-all"></div>
+                    <div class="w-14 h-14 rounded-xl bg-primary/20 flex items-center justify-center mb-6 border border-primary/30 text-primary group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-certificate text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Certificados Gratis</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Avalan tus conocimientos sin cobrarte por emitir el diploma o insignia final.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="glass-card p-8 rounded-2xl reveal relative overflow-hidden group" style="transition-delay: 100ms;">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-secondary/10 rounded-full blur-[40px] group-hover:bg-secondary/20 transition-all"></div>
+                    <div class="w-14 h-14 rounded-xl bg-secondary/20 flex items-center justify-center mb-6 border border-secondary/30 text-secondary group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-clock text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-white">A tu propio ritmo</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Cursos asíncronos para que estudies a la hora que quieras y desde donde quieras.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="glass-card p-8 rounded-2xl reveal relative overflow-hidden group" style="transition-delay: 200ms;">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-[40px] group-hover:bg-cyan-500/20 transition-all"></div>
+                    <div class="w-14 h-14 rounded-xl bg-cyan-500/20 flex items-center justify-center mb-6 border border-cyan-500/30 text-cyan-400 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-laptop-code text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Tech Modernas</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Aprenderás React, Node, Python, IA y las herramientas más demandadas por el mercado.</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="glass-card p-8 rounded-2xl reveal relative overflow-hidden group" style="transition-delay: 300ms;">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-pink-500/10 rounded-full blur-[40px] group-hover:bg-pink-500/20 transition-all"></div>
+                    <div class="w-14 h-14 rounded-xl bg-pink-500/20 flex items-center justify-center mb-6 border border-pink-500/30 text-pink-400 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-globe text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Prestigio Global</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Respaldadas por Harvard, Helsinki, Cisco y grandes comunidades internacionales.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Plataformas Section -->
+    <section id="plataformas" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 reveal">
+                <div class="max-w-2xl">
+                    <h2 class="text-3xl md:text-5xl font-bold mb-4">Plataformas Gratuitas</h2>
+                    <p class="text-gray-400 text-lg">El directorio definitivo de plataformas educativas para aprender IT con certificación 100% gratis.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Platform 1: freeCodeCamp -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col h-full reveal relative border-t-2 border-t-primary/50 group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-[#0a0a23] flex items-center justify-center border border-white/10 text-white text-2xl font-bold">
+                            <i class="fa-brands fa-free-code-camp"></i>
+                        </div>
+                        <span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-500/10 text-green-400 border border-green-500/20 flex items-center gap-1">
+                            <i class="fa-solid fa-check-circle"></i> Certificado Gratis
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-primary transition-colors">freeCodeCamp</h3>
+                    <p class="text-gray-400 text-sm flex-grow mb-6">Plataforma gratuita muy popular para aprender programación web, ciencia de datos y más con certificaciones oficiales de 300 horas.</p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">HTML/CSS</span>
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">JavaScript</span>
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">React</span>
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">Python</span>
+                    </div>
+                    
+                    <a href="https://www.freecodecamp.org/" target="_blank" class="w-full py-3 rounded-lg bg-white/5 hover:bg-primary text-center text-white font-medium transition-all duration-300 border border-white/10 hover:border-primary">
+                        Visitar Plataforma
+                    </a>
+                </div>
+
+                <!-- Platform 2: CS50x -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col h-full reveal relative border-t-2 border-t-red-500/50 group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-[#a41034] flex items-center justify-center border border-white/10 text-white text-xl font-bold">
+                            H
+                        </div>
+                        <span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-500/10 text-green-400 border border-green-500/20 flex items-center gap-1">
+                            <i class="fa-solid fa-check-circle"></i> Certificado Gratis
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-red-400 transition-colors">CS50x Harvard</h3>
+                    <p class="text-gray-400 text-sm flex-grow mb-6">Curso legendario de la Universidad de Harvard para aprender ciencias de la computación y programación desde cero absoluto.</p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">Computer Science</span>
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">C</span>
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">Python</span>
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">SQL</span>
+                    </div>
+                    
+                    <a href="https://cs50.harvard.edu/x/" target="_blank" class="w-full py-3 rounded-lg bg-white/5 hover:bg-red-600 text-center text-white font-medium transition-all duration-300 border border-white/10 hover:border-red-600">
+                        Visitar Plataforma
+                    </a>
+                </div>
+
+                <!-- Platform 3: Full Stack Open -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col h-full reveal relative border-t-2 border-t-blue-500/50 group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-blue-900 flex items-center justify-center border border-white/10 text-white text-xl font-bold">
+                            <i class="fa-solid fa-cubes"></i>
+                        </div>
+                        <span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-500/10 text-green-400 border border-green-500/20 flex items-center gap-1">
+                            <i class="fa-solid fa-check-circle"></i> Certificado Gratis
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">Full Stack Open</h3>
+                    <p class="text-gray-400 text-sm flex-grow mb-6">Programa intensivo y moderno de desarrollo fullstack creado por la Universidad de Helsinki. Enfocado en React y Node.js.</p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">React</span>
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">Node.js</span>
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">MongoDB</span>
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">TypeScript</span>
+                    </div>
+                    
+                    <a href="https://fullstackopen.com/" target="_blank" class="w-full py-3 rounded-lg bg-white/5 hover:bg-blue-600 text-center text-white font-medium transition-all duration-300 border border-white/10 hover:border-blue-600">
+                        Visitar Plataforma
+                    </a>
+                </div>
+
+                <!-- Platform 4: CS50P -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col h-full reveal relative border-t-2 border-t-yellow-500/50 group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-yellow-600/20 flex items-center justify-center border border-white/10 text-yellow-500 text-xl font-bold">
+                            <i class="fa-brands fa-python"></i>
+                        </div>
+                        <span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-500/10 text-green-400 border border-green-500/20 flex items-center gap-1">
+                            <i class="fa-solid fa-check-circle"></i> Certificado Gratis
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-yellow-400 transition-colors">CS50P Harvard</h3>
+                    <p class="text-gray-400 text-sm flex-grow mb-6">Curso oficial de Harvard enfocado completamente en programación con Python, desde conceptos básicos hasta avanzados.</p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">Python</span>
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">Lógica</span>
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">Algoritmos</span>
+                    </div>
+                    
+                    <a href="https://cs50.harvard.edu/python/" target="_blank" class="w-full py-3 rounded-lg bg-white/5 hover:bg-yellow-600 hover:text-gray-900 text-center text-white font-medium transition-all duration-300 border border-white/10">
+                        Visitar Plataforma
+                    </a>
+                </div>
+
+                <!-- Platform 5: SoloLearn -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col h-full reveal relative border-t-2 border-t-purple-500/50 group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-purple-600/20 flex items-center justify-center border border-white/10 text-purple-400 text-xl font-bold">
+                            <i class="fa-solid fa-mobile-screen"></i>
+                        </div>
+                        <span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-500/10 text-green-400 border border-green-500/20 flex items-center gap-1">
+                            <i class="fa-solid fa-check-circle"></i> Certificado Gratis
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">SoloLearn</h3>
+                    <p class="text-gray-400 text-sm flex-grow mb-6">Aprende programación desde tu móvil y web con lecciones cortas, interactivas y gamificadas. Ideal para principiantes.</p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">JavaScript</span>
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">Java</span>
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">C++</span>
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">SQL</span>
+                    </div>
+                    
+                    <a href="https://www.sololearn.com/" target="_blank" class="w-full py-3 rounded-lg bg-white/5 hover:bg-purple-600 text-center text-white font-medium transition-all duration-300 border border-white/10 hover:border-purple-600">
+                        Visitar Plataforma
+                    </a>
+                </div>
+
+                <!-- Platform 6: HackerRank -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col h-full reveal relative border-t-2 border-t-[#00EA64]/50 group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-black flex items-center justify-center border border-white/10 text-[#00EA64] text-xl font-bold">
+                            <i class="fa-brands fa-hackerrank"></i>
+                        </div>
+                        <span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-500/10 text-green-400 border border-green-500/20 flex items-center gap-1">
+                            <i class="fa-solid fa-check-circle"></i> Certificación
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-[#00EA64] transition-colors">HackerRank Skills</h3>
+                    <p class="text-gray-400 text-sm flex-grow mb-6">Más que cursos, son certificaciones gratuitas obtenidas al resolver retos técnicos. Muy valorado en entrevistas de trabajo.</p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">Problem Solving</span>
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">React</span>
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">Node</span>
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">SQL</span>
+                    </div>
+                    
+                    <a href="https://www.hackerrank.com/skills-verification" target="_blank" class="w-full py-3 rounded-lg bg-white/5 hover:bg-[#00EA64] hover:text-black text-center text-white font-medium transition-all duration-300 border border-white/10">
+                        Visitar Plataforma
+                    </a>
+                </div>
+                
+                <!-- Platform 7: Cisco Skills For All -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col h-full reveal relative border-t-2 border-t-cyan-500/50 group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-cyan-900/40 flex items-center justify-center border border-white/10 text-cyan-400 text-xl font-bold">
+                            <i class="fa-solid fa-network-wired"></i>
+                        </div>
+                        <span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-500/10 text-green-400 border border-green-500/20 flex items-center gap-1">
+                            <i class="fa-solid fa-check-circle"></i> Certificado Gratis
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">Cisco Skills For All</h3>
+                    <p class="text-gray-400 text-sm flex-grow mb-6">Cursos oficiales gratuitos de la academia de Cisco. Ideales para iniciarse en el mundo de redes y ciberseguridad.</p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">Ciberseguridad</span>
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">Python</span>
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">Linux</span>
+                    </div>
+                    
+                    <a href="https://skillsforall.com/" target="_blank" class="w-full py-3 rounded-lg bg-white/5 hover:bg-cyan-600 text-center text-white font-medium transition-all duration-300 border border-white/10 hover:border-cyan-600">
+                        Visitar Plataforma
+                    </a>
+                </div>
+
+                <!-- Platform 8: OpenLearn -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col h-full reveal relative border-t-2 border-t-teal-500/50 group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-teal-900/40 flex items-center justify-center border border-white/10 text-teal-400 text-xl font-bold">
+                            <i class="fa-solid fa-university"></i>
+                        </div>
+                        <span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-500/10 text-green-400 border border-green-500/20 flex items-center gap-1">
+                            <i class="fa-solid fa-check-circle"></i> Certificado Gratis
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-teal-400 transition-colors">OpenLearn</h3>
+                    <p class="text-gray-400 text-sm flex-grow mb-6">Cursos gratuitos proporcionados por The Open University. Tienen una sección dedicada al mundo de la tecnología.</p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">Computación</span>
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">Software</span>
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">Redes</span>
+                    </div>
+                    
+                    <a href="https://www.open.edu/openlearn/" target="_blank" class="w-full py-3 rounded-lg bg-white/5 hover:bg-teal-600 text-center text-white font-medium transition-all duration-300 border border-white/10 hover:border-teal-600">
+                        Visitar Plataforma
+                    </a>
+                </div>
+
+                <!-- Platform 9: Great Learning / Simplilearn -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col h-full reveal relative border-t-2 border-t-indigo-500/50 group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-indigo-900/40 flex items-center justify-center border border-white/10 text-indigo-400 text-xl font-bold">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-500/10 text-green-400 border border-green-500/20 flex items-center gap-1">
+                            <i class="fa-solid fa-check-circle"></i> Certificado Gratis
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-indigo-400 transition-colors">Great Learning</h3>
+                    <p class="text-gray-400 text-sm flex-grow mb-6">Plataforma educativa con una academia de cursos cortos gratuitos enfocados en Data, IA y Desarrollo Web.</p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">Data Science</span>
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">IA</span>
+                        <span class="text-xs px-2 py-1 bg-white/5 rounded border border-white/10 text-gray-300">Web Dev</span>
+                    </div>
+                    
+                    <a href="https://www.mygreatlearning.com/academy" target="_blank" class="w-full py-3 rounded-lg bg-white/5 hover:bg-indigo-600 text-center text-white font-medium transition-all duration-300 border border-white/10 hover:border-indigo-600">
+                        Visitar Plataforma
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section id="roadmap" class="py-24 relative bg-[#060b17]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <span class="text-primary font-semibold tracking-wider uppercase text-sm mb-2 block">Camino Sugerido</span>
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">Tu Ruta Hacia el <span class="text-gradient">Éxito</span></h2>
+                <p class="text-gray-400">Un mapa paso a paso de qué aprender para convertirte en desarrollador Full Stack usando cursos gratuitos.</p>
+            </div>
+
+            <div class="relative max-w-4xl mx-auto timeline-line pt-10 pb-10">
+                
+                <!-- Step 1 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group mb-8 md:mb-12 reveal">
+                    <div class="w-10 h-10 rounded-full bg-cardDark border-4 border-primary flex items-center justify-center absolute left-[20px] md:left-1/2 transform -translate-x-1/2 z-10 shadow-[0_0_15px_rgba(99,102,241,0.5)]">
+                        <i class="fa-brands fa-html5 text-orange-500 text-sm"></i>
+                    </div>
+                    <div class="ml-16 md:ml-0 md:w-5/12 p-6 glass-card rounded-2xl group-hover:border-orange-500/50 transition-colors w-full">
+                        <h3 class="text-xl font-bold text-white mb-2">1. Fundamentos Web</h3>
+                        <p class="text-gray-400 text-sm">Empieza dominando HTML semántico y estilos modernos con CSS (Flexbox, Grid, Responsive). <br><span class="text-primary text-xs mt-2 block">Plataforma recomendada: freeCodeCamp</span></p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group mb-8 md:mb-12 reveal">
+                    <div class="w-10 h-10 rounded-full bg-cardDark border-4 border-yellow-500 flex items-center justify-center absolute left-[20px] md:left-1/2 transform -translate-x-1/2 z-10 shadow-[0_0_15px_rgba(234,179,8,0.3)]">
+                        <i class="fa-brands fa-js text-yellow-400 text-sm"></i>
+                    </div>
+                    <div class="ml-16 md:ml-0 md:w-5/12 p-6 glass-card rounded-2xl group-hover:border-yellow-500/50 transition-colors w-full">
+                        <h3 class="text-xl font-bold text-white mb-2">2. Lógica & JavaScript</h3>
+                        <p class="text-gray-400 text-sm">El motor de la web. Aprende variables, funciones, arrays, objetos y manipulación del DOM. <br><span class="text-primary text-xs mt-2 block">Plataforma recomendada: CS50x / SoloLearn</span></p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group mb-8 md:mb-12 reveal">
+                    <div class="w-10 h-10 rounded-full bg-cardDark border-4 border-blue-400 flex items-center justify-center absolute left-[20px] md:left-1/2 transform -translate-x-1/2 z-10 shadow-[0_0_15px_rgba(96,165,250,0.3)]">
+                        <i class="fa-brands fa-react text-blue-400 text-sm"></i>
+                    </div>
+                    <div class="ml-16 md:ml-0 md:w-5/12 p-6 glass-card rounded-2xl group-hover:border-blue-400/50 transition-colors w-full">
+                        <h3 class="text-xl font-bold text-white mb-2">3. Frontend Moderno</h3>
+                        <p class="text-gray-400 text-sm">Especialízate en librerías o frameworks como React para construir interfaces dinámicas. <br><span class="text-primary text-xs mt-2 block">Plataforma recomendada: Full Stack Open</span></p>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group mb-8 md:mb-12 reveal">
+                    <div class="w-10 h-10 rounded-full bg-cardDark border-4 border-green-500 flex items-center justify-center absolute left-[20px] md:left-1/2 transform -translate-x-1/2 z-10 shadow-[0_0_15px_rgba(34,197,94,0.3)]">
+                        <i class="fa-brands fa-node-js text-green-500 text-sm"></i>
+                    </div>
+                    <div class="ml-16 md:ml-0 md:w-5/12 p-6 glass-card rounded-2xl group-hover:border-green-500/50 transition-colors w-full">
+                        <h3 class="text-xl font-bold text-white mb-2">4. Backend & APIs</h3>
+                        <p class="text-gray-400 text-sm">Crea servidores y maneja la lógica de negocio con Node.js, Express o Python. <br><span class="text-primary text-xs mt-2 block">Plataforma recomendada: CS50P / Full Stack Open</span></p>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group mb-8 md:mb-12 reveal">
+                    <div class="w-10 h-10 rounded-full bg-cardDark border-4 border-secondary flex items-center justify-center absolute left-[20px] md:left-1/2 transform -translate-x-1/2 z-10 shadow-[0_0_15px_rgba(168,85,247,0.3)]">
+                        <i class="fa-solid fa-database text-secondary text-sm"></i>
+                    </div>
+                    <div class="ml-16 md:ml-0 md:w-5/12 p-6 glass-card rounded-2xl group-hover:border-secondary/50 transition-colors w-full">
+                        <h3 class="text-xl font-bold text-white mb-2">5. Bases de Datos</h3>
+                        <p class="text-gray-400 text-sm">Aprende a guardar información de forma persistente con bases relacionales (SQL) o NoSQL (MongoDB). <br><span class="text-primary text-xs mt-2 block">Plataforma recomendada: HackerRank (SQL)</span></p>
+                    </div>
+                </div>
+
+                <!-- Step 6 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group reveal">
+                    <div class="w-10 h-10 rounded-full bg-cardDark border-4 border-white flex items-center justify-center absolute left-[20px] md:left-1/2 transform -translate-x-1/2 z-10 shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                        <i class="fa-solid fa-rocket text-white text-sm"></i>
+                    </div>
+                    <div class="ml-16 md:ml-0 md:w-5/12 p-6 rounded-2xl bg-gradient-to-r from-primary to-secondary p-[1px] w-full">
+                        <div class="bg-cardDark rounded-2xl p-6 h-full">
+                            <h3 class="text-xl font-bold text-white mb-2">6. Full Stack Developer</h3>
+                            <p class="text-gray-400 text-sm">Une todas las piezas construyendo proyectos reales. Ya estás listo para tu primer empleo IT.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonios Section -->
+    <section id="testimonios" class="py-24 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">La comunidad lo respalda</h2>
+                <p class="text-gray-400">Personas reales que impulsaron sus carreras gracias a recursos gratuitos.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Testimonial 1 -->
+                <div class="glass-card p-6 rounded-2xl reveal">
+                    <div class="flex items-center gap-2 text-yellow-500 mb-4 text-sm">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-gray-300 mb-6 italic">"No tenía para pagar un bootcamp. Estudié con freeCodeCamp y Full Stack Open por 6 meses y logré conseguir mi primer trabajo como Frontend Developer Jr."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-primary flex items-center justify-center font-bold text-white">
+                            LM
+                        </div>
+                        <div>
+                            <p class="text-white font-semibold text-sm">Laura Martínez</p>
+                            <p class="text-gray-500 text-xs">Frontend Developer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="glass-card p-6 rounded-2xl reveal" style="transition-delay: 100ms;">
+                    <div class="flex items-center gap-2 text-yellow-500 mb-4 text-sm">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-gray-300 mb-6 italic">"El certificado de CS50x de Harvard me ayudó muchísimo a destacar mi CV. Los reclutadores valoran mucho la educación de plataformas reconocidas."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-red-400 to-orange-500 flex items-center justify-center font-bold text-white">
+                            CD
+                        </div>
+                        <div>
+                            <p class="text-white font-semibold text-sm">Carlos Díaz</p>
+                            <p class="text-gray-500 text-xs">Software Engineer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="glass-card p-6 rounded-2xl reveal" style="transition-delay: 200ms;">
+                    <div class="flex items-center gap-2 text-yellow-500 mb-4 text-sm">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-gray-300 mb-6 italic">"Pensé que para aprender programación de verdad se necesitaba pagar. HackerRank y Cisco me dieron la base técnica que necesitaba totalmente gratis."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-teal-500 flex items-center justify-center font-bold text-white">
+                            SV
+                        </div>
+                        <div>
+                            <p class="text-white font-semibold text-sm">Sofía Vargas</p>
+                            <p class="text-gray-500 text-xs">Backend Developer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section class="py-20 relative px-4 sm:px-6 lg:px-8">
+        <div class="max-w-5xl mx-auto rounded-3xl bg-gradient-to-br from-primary via-purple-600 to-secondary p-1 relative overflow-hidden reveal">
+            <!-- Inner container -->
+            <div class="bg-[#030712]/90 backdrop-blur-xl rounded-[23px] py-16 px-6 text-center relative z-10">
+                
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">Empieza Hoy Tu Carrera en Tecnología</h2>
+                <p class="text-gray-300 text-lg mb-10 max-w-2xl mx-auto">
+                    La falta de recursos económicos ya no es una excusa. Tienes acceso a la mejor educación del mundo a un clic de distancia.
+                </p>
+                
+                <a href="#plataformas" class="inline-block px-10 py-5 rounded-full bg-white text-gray-900 font-bold text-lg hover:scale-105 transition-transform hover:shadow-[0_0_40px_rgba(255,255,255,0.3)]">
+                    Explorar Plataformas Gratis
+                </a>
+            </div>
+            
+            <!-- Animated background within CTA -->
+            <div class="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-30 animate-pulse-slow"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 pt-16 pb-8 bg-black">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center mr-2">
+                            <i class="fa-solid fa-code text-white text-xs"></i>
+                        </div>
+                        <span class="font-bold text-xl text-white">Cursos Gratis <span class="text-gradient">Dev</span></span>
+                    </div>
+                    <p class="text-gray-400 text-sm max-w-xs mb-6">
+                        Democratizando el acceso a la educación tecnológica. Encuentra las mejores plataformas con certificados 100% gratuitos.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa-brands fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa-brands fa-github text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa-brands fa-discord text-xl"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Navegación</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#beneficios" class="hover:text-primary transition-colors">Beneficios</a></li>
+                        <li><a href="#plataformas" class="hover:text-primary transition-colors">Directorio</a></li>
+                        <li><a href="#roadmap" class="hover:text-primary transition-colors">Roadmap de Estudio</a></li>
+                        <li><a href="#testimonios" class="hover:text-primary transition-colors">Testimonios</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-primary transition-colors">Aviso Legal</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Privacidad</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Cookies</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                <p>&copy; 2026 Cursos Gratis Dev. Todos los derechos reservados.</p>
+                <p class="mt-2 md:mt-0 italic">"Aprender programación nunca fue tan accesible."</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts for interaction and animations -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu Toggle
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu on click a link
+            menu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.add('hidden');
+                });
+            });
+
+            // Navbar background change on scroll
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    navbar.classList.add('bg-[#030712]/90');
+                    navbar.classList.remove('bg-transparent');
+                } else {
+                    navbar.classList.remove('bg-[#030712]/90');
+                    navbar.classList.add('bg-transparent');
+                }
+            });
+
+            // Scroll Reveal Animation via Intersection Observer
+            const revealElements = document.querySelectorAll('.reveal');
+            
+            const revealCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Optional: stop observing once revealed
+                        // observer.unobserve(entry.target); 
+                    }
+                });
+            };
+
+            const revealOptions = {
+                threshold: 0.1, // Trigger when 10% of element is visible
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const revealObserver = new IntersectionObserver(revealCallback, revealOptions);
+
+            revealElements.forEach(el => {
+                revealObserver.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
