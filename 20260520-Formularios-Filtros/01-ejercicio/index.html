@@ -3,9 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Agencia - Formularios y Filtros</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    
+    <main class="dashboard">
+        <header class="dashboard-header">
+            <h1>Panel de Administración</h1>
+            <p>Gestión de usuarios y suscripciones</p>
+        </header>
+        <!-- Práctica 1: Formulario sin recarga -->
+         <section class="card">
+            <h2>1. Añadir Suscriptor</h2>
+            <form id="suscripcionForm" class="formulario">
+                <div class="input-group">
+                    <label for="nombreInput">Nombre completo</label>
+                    <input type="text" id="nombreInput" placeholder="Ej. Ada Lovelace" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Suscribir Usuario</button>
+            </form>
+            <!-- Aquí inyectaremos el mensaje de éxito con JS -->
+             <div id="mensajeExito" class="alerta oculto"></div>
+         </section>
+
+         <!-- Práctica 2: Buscador en tabla a tiempo real -->
+          <section class="card">
+            <h2>2. Base de Datos de Usuario</h2>
+            <div class="input-group">
+                <input type="text" id="buscadorUsuarios" placeholder="🔍 Buscar por el nombre, email o rol...">
+            </div>
+
+            <table id="tablaUsuario" class="tabla-admin">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Jorge Daniel</td>
+                        <td>jorge@agencia.com</td>
+                        <td>Admin</td>
+                    </tr>
+                    <tr>
+                        <td>Laura Paz</td>
+                        <td>laura@agencia.com</td>
+                        <td>Editor</td>
+                    </tr>
+
+                    <tr>
+                        <td>Jose Manuel</td>
+                        <td>jose@agencia.com</td>
+                        <td>Usuario</td>
+                    </tr>
+
+                    <tr>
+                        <td>Rafal Wysocki</td>
+                        <td>rafal@agencia.com</td>
+                        <td>Editor</td>
+                    </tr>
+
+                    <tr>
+                        <td>Lewis Sanchez</td>
+                        <td>lewis@agencia.com</td>
+                        <td>Usuario</td>
+                    </tr>
+                </tbody>
+            </table>
+          </section>
+    </main>
 </body>
 </html>

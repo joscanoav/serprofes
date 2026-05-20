@@ -1,0 +1,36 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    padding: 20px;
+    margin: 0;
+}
+
+.dashboard {
+    max-width: 900px;
+    margin: 0 auto;
+}
+.dashboard-header {
+    margin-bottom: 30px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0,0.05);
+    margin-bottom: 30px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
