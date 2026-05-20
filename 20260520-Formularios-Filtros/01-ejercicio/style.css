@@ -85,3 +85,16 @@ body {
     text-align: left;
     border-bottom: 1px solid #ddd;
 }
+
+.tabla-admin th {
+    background-color: #f1f1f1;
+    font-weight: bold;
+}
+
+.tabla-admin tr:hover {
+    background-color: #f1f1f1;
+}
+
+.oculto {
+    display: none;
+}
