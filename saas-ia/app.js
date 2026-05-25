@@ -12,7 +12,9 @@ function cargarMemoria() {
         historialChat = JSON.parse(memoriaChat);
     } else {
         // Si el usuario entra por primera vez, le dejamos solo el saludo inicial
-        historialChat = [{ rol: "ia", texto: "¡Hola! Soy IA Master. ¿En qué te ayudo hoy?"}];
+        historialChat = [{
+             rol: "ia", texto: "¡Hola! Soy IA Master. ¿En qué te ayudo hoy?"}
+            ];
     }
 
     if (memoriaTitulos){
@@ -172,3 +174,15 @@ function buscarMensaje() {
     pintarChat(resultados);
 }
 
+// ACTUALIZAR MENI LATERAL DINAMICO
+function actualizarHistorialLateral (){
+    // Busca el <ul> que esta dentro de la clase .historial
+    let ulHistorial = document.querySelector('.historial ul');
+    ulHistorial.innerHTML = ""; // Limpia los textos fijos
+
+    // Recorremos los títulos guardados y los inyectamos como elementos de la lista
+    titulosRecientes.forEach(titulo => {
+        let textoCorto = titulo.length > 15 ? titulo.substring(0,15) + "..." : titulo;
+        ulHistorial.innerHTML += `<li>${textoCorto}</li>`;
+    });
+}
