@@ -12,7 +12,7 @@ function cargarMemoria() {
         historialChat = JSON.parse(memoriaChat);
     } else {
         // Si el usuario entra por primera vez, le dejamos solo el saludo inicial
-        historialChat[{ rol: "ia", texto: "¡Hola! Soy IA Master. ¿En qué te ayudo hoy?"}];
+        historialChat = [{ rol: "ia", texto: "¡Hola! Soy IA Master. ¿En qué te ayudo hoy?"}];
     }
 
     if (memoriaTitulos){
@@ -151,7 +151,7 @@ function borrarChat() {
     titulosRecientes = [];
     // Eliminamos por completo las llaves del disco duro
     localStorage.removeItem('chatGuardado');
-    localStorage.removeItem('tituloGuardado');
+    localStorage.removeItem('tituloGuardados');
     // Volvemos a pintar todo (Ahora quedara todo limpio)
     pintarChat(historialChat);
     actualizarHistorialLateral();
