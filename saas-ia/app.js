@@ -1,10 +1,30 @@
-// 1. NUESTRA BASE DE DATOS MOCK
-// Array de objetos [ rol , texto ]
-let historialChat = [
-    { rol: "ia", texto: "¡Hola! Soy IA Master. ¿En qué te ayudo?"},
-    { rol: "usuario", texto: "Quiero aprender JavaScript"},
-    { rol: "ia", texto: "¡Excelente elección! Empezaremos por los Arrays."}
-];
+let historialChat = [];
+let titulosRecientes = []; // Array de los titulos del menu lateral negro
+
+// FUNCIÓN DE ARRANQUE: Busca en el disco duro del navegador nada mas al abrir la web
+function cargarMemoria() {
+    let memoriaChat = localStorage.getItem('chatGuardado');
+    let memoriaTitulos = localStorage.getItem('titulosGuardados');
+
+    //Si el navegador tiene datos guardados, lo transformamos de texto a array
+
+    if(memoriaChat){
+        historialChat = JSON.parse(memoriaChat);
+    } else {
+        // Si el usuario entra por primera vez, le dejamos solo el saludo inicial
+        historialChat[{ rol: "ia", texto: "¡Hola! Soy IA Master. ¿En qué te ayudo hoy?"}];
+    }
+
+    if (memoriaTitulos){
+        titulosRecientes = JSON.parse(memoriaTitulos);
+    }
+    //Dibujamos la pantalla con lo que hemos rescatado en la memoria
+    pintarChat(historialChat);
+    actualizarHistorialLateral();
+}
+
+//Ejecutamos la función automáticamwnte al cargar el script
+cargarMemoria();
 
 //2. LA FUNCION PINTORA (Visual)
 // Esta función recibe una lista (nuestro array) y lo dibuja en la pantalla
@@ -41,39 +61,56 @@ function pintarChat(listaMensajes){
     caja.scrollTop = caja.scrollHeight;
 }
 
-pintarChat(historialChat);
-
-
-function enviarPrompt(event) {
-    // Evitamos que la pagina web parpadee y se recargue al enviar el formuario
+function enviarPrompt(event){
     event.preventDefault();
-    // Atrapamos la cajita de texto donde el usuario escribe
-    let input = document.getElementById('mensaje-input');
 
-    // Sacamos el texto que ha escrito y le quitamos los espacios en blanco
-    // con .trim()
+    let input = document.getElementById('mensaje-input');
     let mensaje = input.value.trim();
 
-    //2. Condicional
-
-    if (mensaje === "") {
-        alert("⚠️¡Error! Escribe algo primero");
-        // El return expulsa a JS de la funcion para no siga leyendo
+    if (mensaje === ""){
+        alert("⚠️ ¡Error! Escribe algo primero");
         return;
     }
-    // a) Guardamos el mensaje real del usuario
-    let nuevoMensaje = { rol: "usuario", texto: mensaje};
-    historialChat.push(nuevoMensaje);// Lo metemos al final del Array
-    // b) EL TRUCO : Simulamos que la IA nos responde al instante creando otro objeto
-    let respuestaIA = { rol: "ia", texto: "Estoy procesando tu mensaje: '" + mensaje + "'"};
-    historialChat.push(respuestaIA);
 
-    // c) Como el array ha cambiado (Tiene dos mensajes más), obligamos a la web repintarse
+    // A) Guardamos el mensaje real del usuario en el historial
+    historialChat.push({rol: "usuario", texto: mensaje});
+    //B) Metemos el mensaje en el historial del menú lateral (MAX 5)
+    titulosRecientes.push(mensaje);
+    if (titulosRecientes.length > 5) {
+        titulosRecientes.shift(); // Borra el más antiguo de la final para no saturar
+    }
+    actualizarHistorialLateral();
+    //C) Pintamos el mensaje del usuario y guardamos ambos arrays en el texto plano    
     pintarChat(historialChat);
-    // d) Limpiamos el texto que quedo escrito en el input
+    //stringfy convierto un objeto o array a texto.
+    localStorage.setItem('chatGuardado', JSON.stringify(historialChat));
+    localStorage.setItem('titulosGuardados', JSON.stringify(titulosRecientes));
+
     input.value = "";
     input.focus();
+
+    //D) El EFECTO "IA PENSANDO..."
+    let caja = document.getElementById('caja-mensajes');
+    caja.innerHTML += `
+        <div class="msg-ia" id="mensaje-pensando">
+            <b>IA MASTER:</b><br>✍️ Pensando...
+        </div>
+    `;
+
+    caja.scrollTop = caja.scrollHeight; // Bajamos el scroll para ver el pensando
+    
+    // E) Retrasamos la respuesta real de la IA 1.5 segundos (1500ms)
+    setTimeout(() => {
+        //1. Elimanos de la pantalla el indicador "Pensnando..."
+        document.getElementById('mensaje-pensando').remove();
+        //2. Metemos la respuesta definitiva en el  Array
+        historialChat.push({rol: "ia", texto: "Estoy procesando tu mensaje: '" + mensaje + "'" });
+        //3. Volemos a pintar el chat completo y actualizamos la memoria del disco duro
+        pintarChat(historialChat);
+        localStorage.setItem('chatGuardado', JSON.stringify(historialChat));
+    }, 1500);
 }
+
 
 //MINI RETO 1 : Ver TODO
 function mostrarTodo() {
@@ -106,10 +143,18 @@ function modoGritar() {
 // Reto 1 : Boton Borrar
 
 function borrarChat() {
-    //1. Vaciamos la memoria (Array vacío)
+    // //1. Vaciamos la memoria (Array vacío)
+    // historialChat = [];
+    // //2. Pintamos en el html
+    // pintarChat(historialChat);
     historialChat = [];
-    //2. Pintamos en el html
+    titulosRecientes = [];
+    // Eliminamos por completo las llaves del disco duro
+    localStorage.removeItem('chatGuardado');
+    localStorage.removeItem('tituloGuardado');
+    // Volvemos a pintar todo (Ahora quedara todo limpio)
     pintarChat(historialChat);
+    actualizarHistorialLateral();
 }
 
 // Reto 2 : Buscador inteligente (Filter + Includes)
@@ -126,3 +171,4 @@ function buscarMensaje() {
     //3. Pintamos la pantalla SOLO los resultados encontrados
     pintarChat(resultados);
 }
+
