@@ -1,0 +1,55 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f4f7f6;
+    color: #333;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+h1, h2 {
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+}
+
+.card {
+    background: #ecf0f1;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 5px;
+}
+input, button {
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background: #3498db;
+    color: white;
+    cursor: pointer;
+    border: none;
+    font-weight: bold;
+}
+button:hover{
+    background: #2980b9;
+}
+button.btn-peligro {
+    background: #e74c3c;
+}
+pre {
+    background: #2c3e50;
+    color: #1abc9c;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+}
