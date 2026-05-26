@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Fetch API</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="app.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Conexión Global: JSONPlaceholder 🌍</h1>
+        <p>Monitor de peticiones HTTP en tiempo real</p>
+        
+        <div class="card">
+            <h2>1. Buscar Publicación (GET)</h2>
+            <input type="number" id="inputId" placeholder="Escribe un ID (Ej. 1 al 100)">
+            <button id="btnBuscar">🔍 Buscar por ID</button>
+        </div>
+
+        <div class="card">
+            <h2>2. Control de Accidentes</h2>
+            <button id="btnError" class="btn-peligro">⚠ Forzar Error (Ruta rota)</button>
+        </div>
+
+        <div class="card">
+            <h2>3. El Reto: Crear Publicación (POST)</h2>
+            <form id="formCrear">
+                <input type="text" id="inputTitulo" placeholder="Título de la publicación" required>
+                <input type="text" id="inputCuerpo" placeholder="Contenido...." required>
+                <button type="submit">🚀 Enviar al servidor</button>
+            </form>
+        </div>
+        <h2>Respuesta del servidor:</h2>
+        <pre id="pantalla de Resultados">Esperando peticiones</pre>
+        
+    </div>
+</body>
+</html>
