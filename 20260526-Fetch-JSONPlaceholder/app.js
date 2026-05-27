@@ -69,8 +69,9 @@ formCrear.addEventListener('submit', async (evento) => {
         //4. El servidor nos responde con el objeto creado (incluyendo su nuevo ID)
         pantalla.textContent = `✅¡Creación exitosa en el servidor!\n\n` + JSON.stringify(respuestaServidor, null, 2);
         //Limpimos los inputs
-        document.getElementById('inputTitulo').value = "";
-        document.getElementById('inputCuerpo').value = "";
+        //document.getElementById('inputTitulo').value = "";
+        //document.getElementById('inputCuerpo').value = "";
+        formCrear.reset();
     } catch (error) {
         pantalla.textContent = `❌Falló la creación: ${error.message}`;
     }
