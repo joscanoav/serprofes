@@ -5,10 +5,15 @@ async function cargaFoto() {
     // Mensaje mientras carga
     container.innerHTML = "⌛ Buscando perrito por internet ..."
     try {
-        //Petición a la API
+        //1. Perición a la nueva API
         const respuesta = await fetch(
-            "https://api.thedogapi.com/v1/images/search"
+            "https://dog.ceo/api/breeds/image/random"
         );
+
+        //Petición a la API
+        // const respuesta = await fetch(
+        //     "https://api.thedogapi.com/v1/images/search"
+        // );
         // Verificamos si hubo error
         if(!respuesta.ok){
             throw new Error("Fallo en el servidor");
@@ -16,15 +21,22 @@ async function cargaFoto() {
         // Convertimos la respuesta a JSON
         const datos = await respuesta.json();
         // La API devuelve un array
-        const data = datos[0];
+        // const data = datos[0];
         // Nombre de la raza
-        const nombreRaza = 
-            data.breeds?.[0]?.name ||
-            "Raza desconocida (Mestizo)";
+        // const nombreRaza = 
+        //     data.breeds?.[0]?.name ||
+        //     "Raza desconocida (Mestizo)";
+        
+        //2. Extraemos la URL de la imagen (Dog CEO la envía en "message")
+        const urlImagen = datos.message;
+        //3. Nombre de la raza (Lo extramos cortando la URL)
+        const nombreRaza = urlImagen.split('/')[4].replace("-", " ");
+        
+                
         // Mostramos imagen + raza
         container.innerHTML = `
             <img
-                src="${data.url}"
+                src="${urlImagen}"
                 alt="Perro aletorio"
             />
             <p>
