@@ -62,7 +62,7 @@ formCrear.addEventListener('submit', async (evento) => {
 
     try {
         //3. Llamamos al cartero, pero esta vez le pasamos "opciones"(Método POST y el body)
-        const respuestaServidor = await callAPI("/post", {
+        const respuestaServidor = await callAPI("/posts", {
             method: "POST", // Método para crear
             body: JSON.stringify(paqueteDatos)// Convertimos nuestro objeto JS a texto JSON
         });
