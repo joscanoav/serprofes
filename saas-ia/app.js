@@ -30,38 +30,78 @@ cargarMemoria();
 
 //2. LA FUNCION PINTORA (Visual)
 // Esta función recibe una lista (nuestro array) y lo dibuja en la pantalla
+// function pintarChat(listaMensajes){
+//     // PASO 1 = Buscamos en el HTML la etiqueta donde vamos a meter los mensajes
+//     let caja = document.getElementById('caja-mensajes');
+//     // PASO 2 = Borramos la pizarra.
+//     // Si no hacemos esto, cada vez que enviemos un mensajes nuevo,
+//     // se volverá a pintar todo el historial antiguo
+//     caja.innerHTML = "";
+//     // PASO 3: EL TRABAJADOR VIRTUAL (El bucle FOR)
+//     // MATENEMOS EL BUCLE FOR QUE APRENDIMOS AYER
+//     // Le decimos que dé tantas vueltas como mensajes haya en la lista.
+//     // (listaMensajes.length)
+//     for(let i = 0; i < listaMensajes.length;i++){
+//         // PASO 4 : EL CONDICIONAL TERNARIO (Un "IF" resumido en una linea)
+//         // Le preguntamos: ¿El rol de este mensaje es "usuario"?
+//         // Si es true(?) -> usamos la clase verde("msg-usuario")
+//         // Si es false(:) -> usaos la clase gris ("msg-ia")
+//         let claseCSS = listaMensajes[i].rol === "usuario" ? "msg-usuario" : "msg-ia";
+//         // PASO 5 : INYECTAR EL HTML (Usando comillas invertidas ``)
+//         // Las comillas invertidas nos permiten meter variables de JS dentro del HTML
+//         // usando el símbolo de dólar y las llaves ${...}.
+//         // caja.innerHTML += significa "añade este bloque al final de lo que haya"
+//         caja.innerHTML +=
+//                              `<div class = "${claseCSS}">
+//                              <b>${listaMensajes[i].rol.toUpperCase()}:</b><br>
+//                              ${listaMensajes[i].texto}</div>
+//                              `;
+//     }
+//     // PASO 6 : EL AUTO-SCROLL (El truco de Whatsapp)
+//     // Le decimos a la caja que baje su barra de desplazamiento hasta el fondo
+//     // Para que siempre veamos el último mensaje enviado
+//     caja.scrollTop = caja.scrollHeight;
+// }
+
+// 2. LA FUNCIÓN PINTORA (Ahora 100% Segura contra Hackers)
 function pintarChat(listaMensajes){
-    // PASO 1 = Buscamos en el HTML la etiqueta donde vamos a meter los mensajes
     let caja = document.getElementById('caja-mensajes');
-    // PASO 2 = Borramos la pizarra.
-    // Si no hacemos esto, cada vez que enviemos un mensajes nuevo,
-    // se volverá a pintar todo el historial antiguo
+    //ESTO SI ES SEGURO : Vaciar la caja usando innerHTML == "" no supone riesgo
+    // porque no le estamos inyectando texto del usuario, solo la estamos limpiando
     caja.innerHTML = "";
-    // PASO 3: EL TRABAJADOR VIRTUAL (El bucle FOR)
-    // MATENEMOS EL BUCLE FOR QUE APRENDIMOS AYER
-    // Le decimos que dé tantas vueltas como mensajes haya en la lista.
-    // (listaMensajes.length)
-    for(let i = 0; i < listaMensajes.length;i++){
-        // PASO 4 : EL CONDICIONAL TERNARIO (Un "IF" resumido en una linea)
-        // Le preguntamos: ¿El rol de este mensaje es "usuario"?
-        // Si es true(?) -> usamos la clase verde("msg-usuario")
-        // Si es false(:) -> usaos la clase gris ("msg-ia")
-        let claseCSS = listaMensajes[i].rol === "usuario" ? "msg-usuario" : "msg-ia";
-        // PASO 5 : INYECTAR EL HTML (Usando comillas invertidas ``)
-        // Las comillas invertidas nos permiten meter variables de JS dentro del HTML
-        // usando el símbolo de dólar y las llaves ${...}.
-        // caja.innerHTML += significa "añade este bloque al final de lo que haya"
-        caja.innerHTML +=
-                             `<div class = "${claseCSS}">
-                             <b>${listaMensajes[i].rol.toUpperCase()}:</b><br>
-                             ${listaMensajes[i].texto}</div>
-                             `;
+    
+    //Recorremos la lista de mensajes
+    for(let i = 0; i < listaMensajes.length; i++){
+        
+        //1. Creamos la caja principal del mensaje (el <div>) de forma segura
+        let divMensaje = document.createElement('div');
+        divMensaje.className = listaMensajes[i].rol === "usuario" ? "msg-usuario" : "msg-ia";
+        
+        //2. Creamos la etiqueta de negreta para el nombre
+        let textoRol = document.createElement('b');
+        textoRol.textContent = listaMensajes[i].rol.toUpperCase() + ":";
+
+        //3. Creamos el salto de línea
+        let saltoLinea = document.createElement('br');
+
+        //4. EL ESCUDO DEFENSIVO: Creamos un <span> para el texto real.
+        let textoContenido = document.createElement('span');
+        // Al usar .textContent, JS transforma cualquier codigo malicioso
+        // como un <script> in texto inofensivo. Lo "desactiva".
+        textoContenido.textContent = " " + listaMensajes[i].texto;
+
+        //5. Ensamblamos las piezas: Metemos el rol, el salto y el texto dentro del div
+        divMensaje.appendChild(textoRol);
+        divMensaje.appendChild(saltoLinea);
+        divMensaje.appendChild(textoContenido);
+
+        //6. Inyectamos el div ya terminado y seguro en la pantalla principal
+        caja.appendChild(divMensaje);
     }
-    // PASO 6 : EL AUTO-SCROLL (El truco de Whatsapp)
-    // Le decimos a la caja que baje su barra de desplazamiento hasta el fondo
-    // Para que siempre veamos el último mensaje enviado
+    // El auto-scroll
     caja.scrollTop = caja.scrollHeight;
 }
+
 
 function enviarPrompt(event){
     event.preventDefault();
