@@ -131,28 +131,62 @@ function enviarPrompt(event){
     input.value = "";
     input.focus();
 
-    //D) El EFECTO "IA PENSANDO..."
+//     // //D) El EFECTO "IA PENSANDO..."
+//     // let caja = document.getElementById('caja-mensajes');
+//     // caja.innerHTML += `
+//     //     <div class="msg-ia" id="mensaje-pensando">
+//     //         <b>IA MASTER:</b><br>✍️ Pensando...
+//     //     </div>
+//     // `;
+
+//     // caja.scrollTop = caja.scrollHeight; // Bajamos el scroll para ver el pensando
+    
+//     // // E) Retrasamos la respuesta real de la IA 1.5 segundos (1500ms)
+//     // setTimeout(() => {
+//     //     //1. Elimanos de la pantalla el indicador "Pensnando..."
+//     //     document.getElementById('mensaje-pensando').remove();
+//     //     //2. Metemos la respuesta definitiva en el  Array
+//     //     historialChat.push({rol: "ia", texto: "Estoy procesando tu mensaje: '" + mensaje + "'" });
+//     //3. Volemos a pintar el chat completo y actualizamos la memoria del disco duro  
+// //         pintarChat(historialChat);
+// //         localStorage.setItem('chatGuardado', JSON.stringify(historialChat));
+// //     }, 1500);
+// // }
+
+// D) EFECTO "IA PENSANDO"
     let caja = document.getElementById('caja-mensajes');
+    // Como esto lo escribimos nosotros(no el usuario), usar innerHTML no es peligroso
     caja.innerHTML += `
         <div class="msg-ia" id="mensaje-pensando">
-            <b>IA MASTER:</b><br>✍️ Pensando...
+        <b>IA MASTER:</b><br> ⌛ Buscando en internet...
         </div>
     `;
+    caja.scrollTop = caja.scrollHeight; // Bajamos el escrol para el el pensando ...
 
-    caja.scrollTop = caja.scrollHeight; // Bajamos el scroll para ver el pensando
-    
-    // E) Retrasamos la respuesta real de la IA 1.5 segundos (1500ms)
-    setTimeout(() => {
-        //1. Elimanos de la pantalla el indicador "Pensnando..."
+    //E) LA IA SE CONECTA A INTERNET (FETCH API)
+    // LE ponemos 'async' al seTimeOut para poder usar el 'await' dentro
+
+    setTimeout(async () =>{
+        //1. Eliminamos de la pantalla el indicador de Pesando ...
         document.getElementById('mensaje-pensando').remove();
-        //2. Metemos la respuesta definitiva en el  Array
-        historialChat.push({rol: "ia", texto: "Estoy procesando tu mensaje: '" + mensaje + "'" });
-        //3. Volemos a pintar el chat completo y actualizamos la memoria del disco duro
+        try {
+            //2. Hacemos la petición a la API de gatos (Nuestro cerebro temporal)
+            const respuestaExterna = await fetch("https://catfact.ninja/fact");
+            //si la API falla, lanzamos un error que nos enviará al catch
+            if(!respuestaExterna.ok) throw new Error ("Fallo en el servidor de la IA");
+            //3. Traducir el JSON
+            const datosApi = await respuestaExterna.json();
+            //4. Metemos la respuesta real (dato del gato) en el historial
+            historialChat.push({rol: "ia", texto: "Datos curiso: " + datosApi.fact});
+        } catch (error){
+            //Plan B: Si no hay internet o la API cae
+            historialChat.push({rol:"ia", texto: "Ups, mis servidores están caídos" + error.message});
+        }
+        //5. Volvemos a pitnar el chat completo
         pintarChat(historialChat);
         localStorage.setItem('chatGuardado', JSON.stringify(historialChat));
-    }, 1500);
-}
-
+        }, 1500);
+    }
 
 //MINI RETO 1 : Ver TODO
 function mostrarTodo() {
