@@ -18,6 +18,20 @@ app.get("/saludo", (req, res) => {
     res.send("Hola alumnos");
 });
 
+app.get("/api", (req, res) => {
+    res.json({
+        estado:"ok"
+    });
+});
+
+app.get("/hobbies", (req, res) => {
+  res.json([
+    { hobbie: "leer" },
+    { hobbie: "cine" },
+    { hobbie: "programar" }
+  ]);
+});
+
 // Arrancamos servidor
 // Escucha el puerto 3000
 app.listen(3000,()=> {
