@@ -23,6 +23,20 @@ app.get("/api/estudiantes", (req, res)=> {
     res.json(estudiantes);
 });
 
+//🚩RUTA POST: PARA GUARDAR DATOS NUEVOS
+//Cuando alguien envíe información a "api/estudiantes", hacemos lo siguiente
+app.post("/api/estudiantes", (req, res) => {
+    //A. Atrapamos los datos que vienen de fuera (viven dentro de req.body)
+    const nuevoEstudiante = req.body;
+    //B. Metemos ese estudiante nuevo en nuestra lista usando .push()
+    estudiantes.push(nuevoEstudiante);
+    //C. Le respondemos al usuario confirmando que todo ha ido bien
+    res.json({
+        mensaje: "¡Estudiante añadido con éxito a la base de datos!",
+        listaActualizada: estudiantes
+    });
+});
+
 //5.ENCENDER EL MOTOR 💨 
 // Le decimos al servidor que quede vigilando el puerto 3000
 app.listen(3000, () =>{
