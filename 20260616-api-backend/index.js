@@ -61,6 +61,71 @@ app.post("/api/estudiantes", (req, res) => {
 });
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// RUTAS DINÁMICAS  (CRUD COMPLETO)
+app.get("/api/estudiantes/:id", (req, res)=> {
+    const idBuscado = parseInt(req.params.id);
+    const estudiante = estudiantes.find(e => e.id === idBuscado);
+    if (estudiante) {
+        res.json(estudiante);
+    } else {
+        res.status(404).json({error : "Estudiante no encontrado"});
+    }
+});
+
+
+// ✏️ ACTUALIZAR ESTUDIANTE
+app.put("/api/estudiantes/:id", (req, res) => {
+    const idActualizar = parseInt(req.params.id);
+    const indice = estudiantes.findIndex(e => e.id === idActualizar);
+
+    if (indice !== -1){
+        // Actualizamos los datos, pero mantenemos el ID original intacto
+        estudiantes[indice] = { id: idActualizar, ...req.body};
+        res.json({
+            mensaje: "¡Estudiante actualizado",
+            estudianteModificado: estudiantes[indice]
+        });
+    } else {
+        res.status(404).json({ error: "Estudiante no encontrado"});
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //RETO 1 : Profesores
 
 app.get("/api/profesores", (req, res)=> {
