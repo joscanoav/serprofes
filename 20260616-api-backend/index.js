@@ -17,6 +17,13 @@ let estudiantes = [
     { id: 1, nombre: "Aroa", curso: "React"},
     { id: 2, nombre: "Jose", curso: "Node"}
 ];
+
+//RETO 1 : BASE DE DATOS PROFESORES
+let profesores = [
+    { id: 1, nombre: "Jorge", curso: "Desarollo Web"},
+    { id: 2, nombre: "Gonzalo", curso: "Machine Learning"}
+];
+
 //🚩RUTA GET: PARA LEER DATOS
 // Cuando alguien pregunte por "/api/estudiantes", el servidor muestra la lista
 app.get("/api/estudiantes", (req, res)=> {
@@ -27,7 +34,23 @@ app.get("/api/estudiantes", (req, res)=> {
 //Cuando alguien envíe información a "api/estudiantes", hacemos lo siguiente
 app.post("/api/estudiantes", (req, res) => {
     //A. Atrapamos los datos que vienen de fuera (viven dentro de req.body)
-    const nuevoEstudiante = req.body;
+    //const nuevoEstudiante = req.body;
+    const {nombre, curso} = req.body;
+
+    //RETO 3 : VALIDACIÓN EL PORTERO
+
+    if (!nombre || !curso || nombre.trim() === "" || curso.trim() === ""){
+        return res.status(400).json({
+            error:"Error: El nombre y el curso son obligatorios."
+        });
+    };
+
+    //RETO NIVEL 2 : ID AUTOMATICO
+    const nuevoEstudiante = {
+        id: estudiantes.length + 1,
+        nombre: nombre,
+        curso: curso
+    };
     //B. Metemos ese estudiante nuevo en nuestra lista usando .push()
     estudiantes.push(nuevoEstudiante);
     //C. Le respondemos al usuario confirmando que todo ha ido bien
@@ -36,6 +59,32 @@ app.post("/api/estudiantes", (req, res) => {
         listaActualizada: estudiantes
     });
 });
+
+
+//RETO 1 : Profesores
+
+app.get("/api/profesores", (req, res)=> {
+    res.json(profesores);
+});
+app.post("/api/profesores", (req, res) => {
+    //A. Atrapamos los datos que vienen de fuera (viven dentro de req.body)
+    const nuevoProfesor = req.body;
+    //B. Metemos ese estudiante nuevo en nuestra lista usando .push()
+    profesores.push(nuevoProfesor);
+    //C. Le respondemos al usuario confirmando que todo ha ido bien
+    res.json({
+        mensaje: "¡Profesor añadido con éxito a la base de datos!",
+        listaActualizada: profesores
+    });
+});
+
+
+
+
+
+
+
+
 
 //5.ENCENDER EL MOTOR 💨 
 // Le decimos al servidor que quede vigilando el puerto 3000
