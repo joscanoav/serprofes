@@ -112,6 +112,17 @@ app.put("/api/estudiantes/:id", (req, res) => {
     }
 });
 
+// 🗑️ ELIMINAR UN ESTUDIANTE
+app.delete("/api/estudiantes/:id", (req, res) => {
+    const idBorrar = parseInt(req.params,id);
+    //Nos quedamos con todos los que no coincidan con el ID
+    estudiantes = estudiantes.filter(e => e.id !== idBorrar);
+    res.json ({
+        mensaje: "Estudiante eliminado",
+        listaActualizada: estudiantes
+    });
+});
+
 
 
 
