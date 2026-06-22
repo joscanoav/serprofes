@@ -1,10 +1,13 @@
 // 1. Importamos la herramienta principal (Express)
 const express = require("express");
 
+const cors = require("cors"); // 1. IMPORTAMOS CORS
+
 // 2. Creamos nuestra aplicación (nuestro servidor)
 const app = express();
 
 // 🚨 3. EL MIDDLEWARE (LA LÍNEA MÁGICA)
+app.use(cors()); // 2. DAMOS PERMISO A REACT
 app.use(express.json());
 
 // 4. NUESTRA BASE DE DATOS FAKE
