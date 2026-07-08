@@ -1,0 +1,23 @@
+{
+  "name": "serprofes",
+  "version": "1.0.0",
+  "description": "````markdown\r # 🚀 Bootcamp Exercises Repository",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joscanoav/serprofes.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joscanoav/serprofes/issues"
+  },
+  "homepage": "https://github.com/joscanoav/serprofes#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
