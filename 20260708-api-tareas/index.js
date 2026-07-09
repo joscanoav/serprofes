@@ -62,13 +62,6 @@ app.get("/", (req, res)=> {
 })
 
 
-
-
-
-
-
-
-
 app.listen(PORT, () => {
     //5. Cuando el servidor se incicia correctamente,
     //mostramos un mensaje en la consola.
