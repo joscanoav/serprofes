@@ -62,11 +62,26 @@ app.get("/", (req, res)=> {
 })
 
 
+//=====================================
+// GET - OBTENER TODAS LAS TAREAS
+//=====================================
+// Ruta:
+// GET /api/tareas
+//Devuelve todas las tareas almacenadas.
+app.get("/api/tareas", (req, res) => {
+    //Código HTTP 200 = OK
+    //json() convierte autimáticamente el arreglo
+    // en formato JSON.
+    res.status(200).json(tareas);
+});
+
+
 app.listen(PORT, () => {
     //5. Cuando el servidor se incicia correctamente,
     //mostramos un mensaje en la consola.
     console.log(`🎉Servidor ejecutándose en http://localhost:${PORT}`);
 });
+
 
 
 
