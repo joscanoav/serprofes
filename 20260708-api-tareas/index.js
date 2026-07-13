@@ -171,28 +171,35 @@ app.put("/api/tareas/:id", (req, res) => {
     });
 });
 
+//=================================================
+//DELETE /api/tareas/4
+//=================================================
+//Ruta:
+//DELETE : Elimina una tarea según id.
+app.delete("/api/tareas/:id",(req, res) => {
+    // Convertimos el parametro a número
+    const id = parseInt(req.params.id);
+    // Buscamos la posición de la tarea
+    // dentro del arreglo
+    const indice = tareas.findIndex(t => t.id === id);
 
+    // Si no existe
+    if (indice === -1){
+        return res.status(404).json ({
+            mensaje: "La tarea no existe"
+        });
+    }
 
+    // Elimanos la tera del arreglo
+    // splice(posicion, cantidad)
 
+    tareas.splice(indice,1);
 
+    res.status(200).json({
+        mensaje: "Tarea eliminada correctamente"
+    });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+});
 
 
 app.listen(PORT, () => {
