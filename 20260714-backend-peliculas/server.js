@@ -51,6 +51,29 @@ app.post("/api/peliculas", (req, res) => {
     res.status(201).json(nuevaPelicula);
 })
 
+//Actualizar una película existente (PUT)
+app.put("/api/peliculas/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    const { titulo, director } = req.body;
+
+    //Validación básica: no permitimos guardar datos vacíos
+    if (!titulo || !director) {
+        return res.status(400).json({ error: "Faltan datos obligatorios"});
+    }
+
+    const pelicula = pelicula.find(p => p.id === id);
+
+    if(!pelicula){
+        return res.status(404).json({ error: "Película no encontrada"});
+    }
+
+    //Actualizamos solo los campos, manteniendo el mismo id
+    pelicula.titulo = titulo;
+    pelicula.director = director;
+
+    res.json(pelicula);
+});
+
 
 //==========================================
 //6. ENCENDIDO DEL SERVIDOR
