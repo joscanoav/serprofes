@@ -61,7 +61,7 @@ app.put("/api/peliculas/:id", (req, res) => {
         return res.status(400).json({ error: "Faltan datos obligatorios"});
     }
 
-    const pelicula = pelicula.find(p => p.id === id);
+    const pelicula = peliculas.find(p => p.id === id);
 
     if(!pelicula){
         return res.status(404).json({ error: "Película no encontrada"});
