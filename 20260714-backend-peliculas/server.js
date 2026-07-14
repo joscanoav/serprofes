@@ -74,6 +74,27 @@ app.put("/api/peliculas/:id", (req, res) => {
     res.json(pelicula);
 });
 
+//Eliminar una película (DELETE)
+
+app.delete("/api/peliculas/:id", (req,res) => {
+    const id = parseInt(req.params.id);
+    const index = peliculas.findIndex(p  => p.id === id);
+
+    if(index !== -1){
+        peliculas.splice(index,1);
+        res.json({mensaje: "Pelicula eliminada del catálogo"});
+    }else {
+        res.status(404).json({ error: "Película no encontrada"});
+    }
+});
+
+
+
+
+
+
+
+
 
 //==========================================
 //6. ENCENDIDO DEL SERVIDOR
