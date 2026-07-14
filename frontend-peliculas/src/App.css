@@ -1,0 +1,206 @@
+/* ==========================================================
+   App.css
+   Diseño moderno inspirado ligeramente en Netflix.
+   CSS puro, sin frameworks.
+   ========================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: #141414;
+  color: #ffffff;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+.app-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+}
+
+/* ---------------- HEADER ---------------- */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 16px;
+}
+
+.app-header h1 {
+  font-size: 28px;
+  margin: 0;
+  color: #e50914;
+  letter-spacing: 0.5px;
+}
+
+.status {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background-color: #222;
+}
+
+.status-online {
+  color: #4ade80;
+}
+
+.status-offline {
+  color: #f87171;
+}
+
+.status-checking {
+  color: #fbbf24;
+}
+
+.offline-banner {
+  background-color: #2a1215;
+  border: 1px solid #e50914;
+  color: #ffb3b8;
+  padding: 14px 18px;
+  border-radius: 10px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.offline-banner code {
+  background-color: #3a1a1d;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* ---------------- FORMULARIO ---------------- */
+.movie-form {
+  background-color: #222222;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 32px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.form-title {
+  margin-top: 0;
+  margin-bottom: 18px;
+  font-size: 18px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 13px;
+  color: #b3b3b3;
+}
+
+.form-group input {
+  background-color: #333333;
+  border: 1px solid #444444;
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: #ffffff;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.form-group input:focus {
+  border-color: #e50914;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* ---------------- BOTONES ---------------- */
+.btn {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.btn:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background-color: #e50914;
+  color: #ffffff;
+}
+
+.btn-cancel {
+  background-color: #444444;
+  color: #ffffff;
+}
+
+.btn-edit {
+  background-color: #333333;
+  color: #ffffff;
+}
+
+.btn-delete {
+  background-color: #e50914;
+  color: #ffffff;
+}
+
+/* ---------------- LISTADO DE PELÍCULAS ---------------- */
+.movie-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 18px;
+}
+
+.movie-card {
+  background-color: #222222;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.15s ease;
+}
+
+.movie-card:hover {
+  transform: translateY(-3px);
+}
+
+.movie-title {
+  margin: 0 0 6px;
+  font-size: 18px;
+  color: #ffffff;
+}
+
+.movie-director {
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: #b3b3b3;
+}
+
+.movie-card-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.empty-message {
+  color: #888888;
+  text-align: center;
+  padding: 40px 0;
+}
