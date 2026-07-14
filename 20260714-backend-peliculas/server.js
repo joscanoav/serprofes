@@ -27,14 +27,34 @@ let peliculas = [
 //================================================
 //5. RUTAS DE LA API (CRUD)
 //================================================
+// Leer el catálogo completo (GET)
 app.get("/api/peliculas", (req,res)=>{
     res.json(peliculas);
 });
+
+//Añadir una película nueva (POST)
+app.post("/api/peliculas", (req, res) => {
+    const { titulo, director } = req.body;
+    //Validación básica para evitar guardar datos vacíos
+    if(!titulo || !director) {
+        return res.status(400).json({ error: "Faltan datos obligatorios"});
+    }
+
+    const nuevaPelicula = {
+        id: peliculas.length > 0 ? peliculas[peliculas.length - 1].id + 1 : 1,
+        titulo: titulo,
+        director: director
+
+    };
+
+    peliculas.push(nuevaPelicula);
+    res.status(201).json(nuevaPelicula);
+})
 
 
 //==========================================
 //6. ENCENDIDO DEL SERVIDOR
 //==========================================
 app.listen(3000, () => {
-    console.log("🎬 Servidor de películas listo en el puerto 300 (CORS Activado)");
+    console.log("🎬 Servidor de películas listo en el puerto 3000 (CORS Activado)");
 });
