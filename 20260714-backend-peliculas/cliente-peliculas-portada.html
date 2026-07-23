@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🎬 Catálogo de Películas (sin Node)</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background-color: #141414;
+    color: #ffffff;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+  }
+  .app-container { max-width: 900px; margin: 0 auto; padding: 40px 20px 80px; }
+  .app-header {
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px; margin-bottom: 24px;
+    border-bottom: 1px solid #333; padding-bottom: 16px;
+  }
+  .app-header h1 { font-size: 28px; margin: 0; color: #e50914; letter-spacing: 0.5px; }
+  .status { font-size: 14px; font-weight: 600; padding: 6px 14px; border-radius: 20px; background-color: #222; }
+  .status-online { color: #4ade80; }
+  .status-offline { color: #f87171; }
+  .status-checking { color: #fbbf24; }
+  .offline-banner {
+    background-color: #2a1215; border: 1px solid #e50914; color: #ffb3b8;
+    padding: 14px 18px; border-radius: 10px; margin-bottom: 24px; font-size: 14px; line-height: 1.5;
+  }
+  .offline-banner code { background-color: #3a1a1d; padding: 2px 6px; border-radius: 4px; }
+  .movie-form {
+    background-color: #222222; border-radius: 12px; padding: 24px; margin-bottom: 32px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  }
+  .form-title { margin-top: 0; margin-bottom: 18px; font-size: 18px; }
+  .form-group { margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px; }
+  .form-group label { font-size: 13px; color: #b3b3b3; }
+  .form-group input {
+    background-color: #333333; border: 1px solid #444444; border-radius: 8px;
+    padding: 10px 12px; color: #ffffff; font-size: 15px; outline: none;
+    transition: border-color 0.2s ease;
+  }
+  .form-group input:focus { border-color: #e50914; }
+  .form-actions { display: flex; gap: 12px; }
+  .btn {
+    border: none; border-radius: 8px; padding: 10px 18px; font-size: 14px;
+    font-weight: 600; cursor: pointer; transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+  .btn:hover { opacity: 0.85; transform: translateY(-1px); }
+  .btn-primary { background-color: #e50914; color: #ffffff; }
+  .btn-cancel { background-color: #444444; color: #ffffff; }
+  .btn-edit { background-color: #333333; color: #ffffff; }
+  .btn-delete { background-color: #e50914; color: #ffffff; }
+  .movie-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
+  .movie-card {
+    background-color: #222222; border-radius: 12px; overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.35); display: flex; flex-direction: column;
+    justify-content: space-between; transition: transform 0.15s ease;
+  }
+  .movie-card:hover { transform: translateY(-3px); }
+  .movie-poster {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    background-color: #333333;
+    display: block;
+  }
+  .movie-poster-placeholder {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    background-color: #333333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 42px;
+    color: #555555;
+  }
+  .movie-card-info { padding: 14px 18px 0; }
+  .movie-card-actions { padding: 14px 18px 18px; }
+  .movie-title { margin: 0 0 6px; font-size: 18px; color: #ffffff; }
+  .movie-director { margin: 0 0 16px; font-size: 14px; color: #b3b3b3; }
+  .movie-card-actions { display: flex; gap: 10px; }
+  .empty-message { color: #888888; text-align: center; padding: 40px 0; }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <header class="app-header">
+    <h1>🎬 Catálogo de Películas</h1>
+    <span id="status" class="status status-checking">🟡 Comprobando conexión...</span>
+  </header>
+
+  <div id="offlineBanner" class="offline-banner" style="display:none;">
+    No se puede conectar con <strong>http://localhost:3000</strong>.<br />
+    Comprueba que tu servidor Express esté encendido (<code>node server.js</code>).
+  </div>
+
+  <form id="movieForm" class="movie-form">
+    <h2 id="formTitle" class="form-title">➕ Agregar película</h2>
+    <div class="form-group">
+      <label for="titulo">Título</label>
+      <input id="titulo" type="text" placeholder="Ej: Matrix" />
+    </div>
+    <div class="form-group">
+      <label for="director">Director</label>
+      <input id="director" type="text" placeholder="Ej: Lana Wachowski" />
+    </div>
+    <div class="form-actions">
+      <button type="submit" id="submitBtn" class="btn btn-primary">Agregar película</button>
+      <button type="button" id="cancelBtn" class="btn btn-cancel" style="display:none;">Cancelar</button>
+    </div>
+  </form>
+
+  <div id="movieList" class="movie-list"></div>
+</div>
+
+<script>
+  // ==========================================================
+  // Cliente 100% vanilla: sin npm, sin build, sin Node.
+  // Se abre directamente en el navegador (doble clic al archivo).
+  // Misma lógica que la versión React, solo que con DOM puro.
+  // ==========================================================
+  const API_URL = "http://localhost:3000/api/peliculas";
+
+  let editingId = null; // null = modo crear, número = modo editar
+
+  const statusEl = document.getElementById("status");
+  const offlineBanner = document.getElementById("offlineBanner");
+  const movieListEl = document.getElementById("movieList");
+  const formEl = document.getElementById("movieForm");
+  const tituloInput = document.getElementById("titulo");
+  const directorInput = document.getElementById("director");
+  const submitBtn = document.getElementById("submitBtn");
+  const cancelBtn = document.getElementById("cancelBtn");
+  const formTitle = document.getElementById("formTitle");
+
+  // ---------------- Servicio (equivalente a movieService.js) ----------------
+  async function getMovies() {
+    const res = await fetch(API_URL);
+    if (!res.ok) throw new Error("No se pudo obtener el listado");
+    return res.json();
+  }
+  async function createMovie(movie) {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(movie),
+    });
+    if (!res.ok) throw new Error("No se pudo crear la película");
+    return res.json();
+  }
+  async function updateMovie(id, movie) {
+    const res = await fetch(`${API_URL}/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(movie),
+    });
+    if (!res.ok) throw new Error("No se pudo actualizar la película");
+    return res.json();
+  }
+  async function deleteMovie(id) {
+    const res = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+    if (!res.ok) throw new Error("No se pudo eliminar la película");
+    return res.json();
+  }
+
+  // ---------------- Render ----------------
+  function renderMovies(movies) {
+    movieListEl.innerHTML = "";
+    if (movies.length === 0) {
+      movieListEl.innerHTML = '<p class="empty-message">No hay películas en el catálogo todavía.</p>';
+      return;
+    }
+    movies.forEach((movie) => {
+      const card = document.createElement("div");
+      card.className = "movie-card";
+
+      // Si el backend encontró portada en TMDb, mostramos la imagen.
+      // Si no (portada = null), mostramos un placeholder en su lugar.
+      const posterHtml = movie.portada
+        ? `<img class="movie-poster" src="${movie.portada}" alt="Portada de ${movie.titulo}" />`
+        : `<div class="movie-poster-placeholder">🎬</div>`;
+
+      card.innerHTML = `
+        ${posterHtml}
+        <div class="movie-card-info">
+          <h3 class="movie-title">${movie.titulo}</h3>
+          <p class="movie-director">🎬 ${movie.director}</p>
+        </div>
+        <div class="movie-card-actions">
+          <button class="btn btn-edit">Editar</button>
+          <button class="btn btn-delete">Eliminar</button>
+        </div>
+      `;
+      card.querySelector(".btn-edit").addEventListener("click", () => startEdit(movie));
+      card.querySelector(".btn-delete").addEventListener("click", () => handleDelete(movie.id));
+      movieListEl.appendChild(card);
+    });
+  }
+
+  function setStatus(state) {
+    if (state === "online") {
+      statusEl.textContent = "🟢 Backend conectado";
+      statusEl.className = "status status-online";
+      offlineBanner.style.display = "none";
+    } else if (state === "offline") {
+      statusEl.textContent = "🔴 Backend desconectado";
+      statusEl.className = "status status-offline";
+      offlineBanner.style.display = "block";
+    } else {
+      statusEl.textContent = "🟡 Comprobando conexión...";
+      statusEl.className = "status status-checking";
+    }
+  }
+
+  // ---------------- Carga inicial ----------------
+  async function cargarPeliculas() {
+    try {
+      const data = await getMovies();
+      renderMovies(data);
+      setStatus("online");
+    } catch (err) {
+      setStatus("offline");
+    }
+  }
+
+  // ---------------- Crear / Editar ----------------
+  function startEdit(movie) {
+    editingId = movie.id;
+    tituloInput.value = movie.titulo;
+    directorInput.value = movie.director;
+    formTitle.textContent = "✏️ Editar película";
+    submitBtn.textContent = "Actualizar película";
+    cancelBtn.style.display = "inline-block";
+  }
+
+  function resetForm() {
+    editingId = null;
+    tituloInput.value = "";
+    directorInput.value = "";
+    formTitle.textContent = "➕ Agregar película";
+    submitBtn.textContent = "Agregar película";
+    cancelBtn.style.display = "none";
+  }
+
+  cancelBtn.addEventListener("click", resetForm);
+
+  formEl.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const titulo = tituloInput.value.trim();
+    const director = directorInput.value.trim();
+
+    if (!titulo || !director) {
+      alert("Por favor, rellena el título y el director");
+      return;
+    }
+
+    try {
+      if (editingId) {
+        await updateMovie(editingId, { titulo, director });
+      } else {
+        await createMovie({ titulo, director });
+      }
+      resetForm();
+      await cargarPeliculas();
+    } catch (err) {
+      setStatus("offline");
+      alert("No se pudo guardar la película. Revisa que el backend esté encendido.");
+    }
+  });
+
+  // ---------------- Eliminar ----------------
+  async function handleDelete(id) {
+    if (!confirm("¿Seguro que quieres eliminar esta película?")) return;
+    try {
+      await deleteMovie(id);
+      await cargarPeliculas();
+    } catch (err) {
+      setStatus("offline");
+      alert("No se pudo eliminar la película. Revisa que el backend esté encendido.");
+    }
+  }
+
+  // ---------------- Arranque ----------------
+  cargarPeliculas();
+</script>
+
+</body>
+</html>
